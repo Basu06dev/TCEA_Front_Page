@@ -1,230 +1,395 @@
 /* =========================================================
-   TCEA STUDENT COVER PAGE MAKER
-   app.js
+   STUDENT COVER PAGE MAKER
    ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
 
     /* =====================================================
-       HELPER FUNCTIONS
+       ELEMENTS
        ===================================================== */
 
     const $ = (id) => document.getElementById(id);
 
-    const getValue = (id, fallback = "—") => {
-        const element = $(id);
-        if (!element) return fallback;
+    const courseLevel = $("courseLevel");
+    const branch = $("branch");
+    const semester = $("semester");
+    const subject = $("subject");
+    const subjectCode = $("subjectCode");
+    const session = $("session");
 
-        const value = element.value?.trim();
+    const studentName = $("studentName");
+    const studentId = $("studentId");
+    const tuRoll = $("tuRoll");
+    const tuReg = $("tuReg");
 
-        return value ? value : fallback;
-    };
+    const facultyDept = $("facultyDept");
+    const facultyName = $("facultyName");
+    const designation = $("designation");
 
-    const setText = (id, value) => {
-        const element = $(id);
-        if (element) {
-            element.textContent = value;
-        }
-    };
+    const faculty2Name = $("faculty2Name");
+    const faculty2Dept = $("faculty2Dept");
+    const faculty2Designation = $("faculty2Designation");
+
+    const submissionType = $("submissionType");
+    const submissionDate = $("submissionDate");
+
+    const a4 = $("a4");
+
+    const pSubject = $("pSubject");
+    const pCode = $("pCode");
+
+    const pFaculty = $("pFaculty");
+    const pDesignation = $("pDesignation");
+    const pDept = $("pDept");
+
+    const pFaculty2Block = $("pFaculty2Block");
+    const pFaculty2Name = $("pFaculty2Name");
+    const pFaculty2Designation = $("pFaculty2Designation");
+    const pFaculty2Dept = $("pFaculty2Dept");
+
+    const pName = $("pName");
+    const pId = $("pId");
+    const pRoll = $("pRoll");
+    const pReg = $("pReg");
+    const pBranch = $("pBranch");
+    const pSem = $("pSem");
+
+    const pSession = $("pSession");
+    const pDate = $("pDate");
+
+    const docType = $("docType");
+
+    const resetBtn = $("resetBtn");
+    const nextBtn = $("nextBtn");
+
+    const templateBtn = $("templateBtn");
+    const downloadBtn = $("downloadBtn");
+    const printBtn = $("printBtn");
+
+    const templateStrip = $("templateStrip");
+
+    const aboutSection = $("about");
+    const aboutLink = $("aboutLink");
+
+    const toast = $("toast");
+
+    const docsBtn = $("docsBtn");
+
 
     /* =====================================================
-       FORM ELEMENTS
+       DEFAULT VALUES
        ===================================================== */
 
-    const formFields = [
-        "courseLevel",
-        "branch",
-        "semester",
-        "subject",
-        "subjectCode",
-        "session",
-        "studentName",
-        "studentId",
-        "tuRoll",
-        "tuReg",
-        "facultyDept",
-        "facultyName",
-        "designation",
-        "faculty2Name",
-        "faculty2Dept",
-        "faculty2Designation",
-        "submissionType",
-        "submissionDate"
-    ];
+    if (submissionDate && !submissionDate.value) {
+        const today = new Date();
+
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, "0");
+        const day = String(today.getDate()).padStart(2, "0");
+
+        submissionDate.value = `${year}-${month}-${day}`;
+    }
+
 
     /* =====================================================
-       LIVE PREVIEW
+       TOAST
+       ===================================================== */
+
+    function showToast(message) {
+
+        if (!toast) return;
+
+        toast.textContent = message;
+
+        toast.classList.add("show");
+
+        clearTimeout(window.toastTimer);
+
+        window.toastTimer = setTimeout(() => {
+            toast.classList.remove("show");
+        }, 2200);
+    }
+
+
+    /* =====================================================
+       SAFE VALUE
+       ===================================================== */
+
+    function valueOf(element, fallback = "") {
+
+        if (!element) {
+            return fallback;
+        }
+
+        const value = element.value.trim();
+
+        return value || fallback;
+    }
+
+
+    /* =====================================================
+       DATE FORMAT
+       ===================================================== */
+
+    function formatDate(dateValue) {
+
+        if (!dateValue) {
+            return "—";
+        }
+
+        const date = new Date(`${dateValue}T00:00:00`);
+
+        if (Number.isNaN(date.getTime())) {
+            return "—";
+        }
+
+        return date.toLocaleDateString("en-IN", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric"
+        });
+    }
+
+
+    /* =====================================================
+       DOCUMENT TYPE
+       ===================================================== */
+
+    function getDocumentType() {
+
+        const type = valueOf(
+            submissionType,
+            "Assignment-I"
+        );
+
+        if (type === "Lab Copy") {
+            return "LAB COPY";
+        }
+
+        if (type === "Practical Report") {
+            return "PRACTICAL REPORT";
+        }
+
+        if (type === "Assignment-II") {
+            return "ASSIGNMENT-II";
+        }
+
+        return "ASSIGNMENT-I";
+    }
+
+
+    /* =====================================================
+       UPDATE PREVIEW
        ===================================================== */
 
     function updatePreview() {
 
+        if (!a4) return;
+
         /* Course */
-        setText("pSubject", getValue("subject", "Your Subject"));
-        setText("pCode", getValue("subjectCode", "COURSE CODE"));
+
+        if (pSubject) {
+            pSubject.textContent = valueOf(
+                subject,
+                "Your Subject"
+            );
+        }
+
+        if (pCode) {
+            pCode.textContent = valueOf(
+                subjectCode,
+                "COURSE CODE"
+            );
+        }
+
 
         /* Faculty */
-        setText("pFaculty", getValue("facultyName", "Faculty Name"));
-        setText("pDesignation", getValue("designation", "Lecturer"));
 
-        const facultyDept = getValue(
-            "facultyDept",
-            "Computer Science & Engineering"
-        );
-
-        setText("pDept", facultyDept);
-
-        /* Student */
-        setText("pName", getValue("studentName", "Student Name"));
-
-        setText(
-            "pId",
-            `Student ID: ${getValue("studentId")}`
-        );
-
-        setText(
-            "pRoll",
-            `TU Roll No.: ${getValue("tuRoll")}`
-        );
-
-        setText(
-            "pReg",
-            `TU Registration No.: ${getValue("tuReg")}`
-        );
-
-        setText(
-            "pBranch",
-            `Branch: ${getValue("branch")}`
-        );
-
-        setText(
-            "pSem",
-            `Semester: ${getValue("semester")}`
-        );
-
-        /* Session */
-        setText(
-            "pSession",
-            getValue("session", "2026-27")
-        );
-
-        /* Submission type */
-        const submissionType = getValue(
-            "submissionType",
-            "Assignment-I"
-        );
-
-        let documentType = "ASSIGNMENT";
-
-        if (
-            submissionType.toLowerCase().includes("lab")
-        ) {
-            documentType = "LAB COPY";
-        } 
-        else if (
-            submissionType.toLowerCase().includes("practical")
-        ) {
-            documentType = "PRACTICAL REPORT";
+        if (pFaculty) {
+            pFaculty.textContent = valueOf(
+                facultyName,
+                "Faculty Name"
+            );
         }
 
-        setText("docType", documentType);
-
-        /* Date */
-        const dateValue = $("submissionDate")?.value;
-
-        if (dateValue) {
-
-            const date = new Date(dateValue);
-
-            const formattedDate =
-                date.toLocaleDateString("en-IN", {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "numeric"
-                });
-
-            setText("pDate", formattedDate);
-
-        } else {
-
-            setText("pDate", "—");
-
+        if (pDesignation) {
+            pDesignation.textContent = valueOf(
+                designation,
+                "Lecturer"
+            );
         }
 
-        /* =================================================
-           SECOND FACULTY
-           ================================================= */
+        if (pDept) {
+            pDept.textContent = valueOf(
+                facultyDept,
+                "Department of CSE"
+            );
+        }
 
-        const faculty2Name = getValue(
-            "faculty2Name",
+
+        /* Second Faculty */
+
+        const secondFaculty = valueOf(
+            faculty2Name,
             ""
         );
 
-        const faculty2Block = $("pFaculty2Block");
+        if (secondFaculty) {
 
-        if (faculty2Block) {
+            if (pFaculty2Block) {
+                pFaculty2Block.hidden = false;
+            }
 
-            if (faculty2Name) {
+            if (pFaculty2Name) {
+                pFaculty2Name.textContent = secondFaculty;
+            }
 
-                faculty2Block.hidden = false;
-
-                setText(
-                    "pFaculty2Name",
-                    faculty2Name
-                );
-
-                setText(
-                    "pFaculty2Designation",
-                    getValue(
-                        "faculty2Designation",
+            if (pFaculty2Designation) {
+                pFaculty2Designation.textContent =
+                    valueOf(
+                        faculty2Designation,
                         "Lecturer"
-                    )
-                );
+                    );
+            }
 
-                setText(
-                    "pFaculty2Dept",
-                    getValue(
-                        "faculty2Dept",
-                        "Computer Science & Engineering"
-                    )
-                );
+            if (pFaculty2Dept) {
+                pFaculty2Dept.textContent =
+                    valueOf(
+                        faculty2Dept,
+                        "Department of CSE"
+                    );
+            }
 
-            } else {
+        } else {
 
-                faculty2Block.hidden = true;
-
+            if (pFaculty2Block) {
+                pFaculty2Block.hidden = true;
             }
         }
 
-        saveFormData();
+
+        /* Student */
+
+        if (pName) {
+            pName.textContent = valueOf(
+                studentName,
+                "Student Name"
+            );
+        }
+
+        if (pId) {
+            pId.textContent =
+                "Student ID: " +
+                valueOf(studentId, "—");
+        }
+
+        if (pRoll) {
+            pRoll.textContent =
+                "TU Roll No.: " +
+                valueOf(tuRoll, "—");
+        }
+
+        if (pReg) {
+            pReg.textContent =
+                "TU Registration No.: " +
+                valueOf(tuReg, "—");
+        }
+
+        if (pBranch) {
+            pBranch.textContent =
+                "Branch: " +
+                valueOf(branch, "—");
+        }
+
+        if (pSem) {
+            pSem.textContent =
+                "Semester: " +
+                valueOf(semester, "—");
+        }
+
+
+        /* Bottom */
+
+        if (pSession) {
+            pSession.textContent = valueOf(
+                session,
+                "2026-27"
+            );
+        }
+
+        if (pDate) {
+            pDate.textContent = formatDate(
+                submissionDate?.value
+            );
+        }
+
+
+        /* Document */
+
+        if (docType) {
+            docType.textContent = getDocumentType();
+        }
     }
 
+
     /* =====================================================
-       INPUT LISTENERS
+       FORM INPUT EVENTS
        ===================================================== */
 
-    formFields.forEach((id) => {
+    const formElements = [
+        courseLevel,
+        branch,
+        semester,
+        subject,
+        subjectCode,
+        session,
 
-        const element = $(id);
+        studentName,
+        studentId,
+        tuRoll,
+        tuReg,
+
+        facultyDept,
+        facultyName,
+        designation,
+
+        faculty2Name,
+        faculty2Dept,
+        faculty2Designation,
+
+        submissionType,
+        submissionDate
+    ];
+
+    formElements.forEach((element) => {
 
         if (!element) return;
 
         element.addEventListener("input", updatePreview);
-        element.addEventListener("change", updatePreview);
 
+        element.addEventListener("change", updatePreview);
     });
 
-    /* =====================================================
-       TEMPLATE SYSTEM
-       ===================================================== */
 
-    const templates = document.querySelectorAll(".template");
-    const a4 = $("a4");
+    /* =====================================================
+       TEMPLATE SWITCHING
+       ===================================================== */
 
     function selectTemplate(templateName) {
 
         if (!a4) return;
 
-        /* Remove previous template classes */
+        const validTemplates = [
+            "classic",
+            "border",
+            "minimal",
+            "lab"
+        ];
+
+        if (!validTemplates.includes(templateName)) {
+            templateName = "classic";
+        }
+
         a4.classList.remove(
             "classic",
             "border",
@@ -232,168 +397,122 @@ document.addEventListener("DOMContentLoaded", () => {
             "lab"
         );
 
-        /* Add selected template */
         a4.classList.add(templateName);
 
-        /* Update buttons */
-        templates.forEach((button) => {
+
+        /* Update active button */
+
+        const buttons = document.querySelectorAll(
+            ".template[data-template]"
+        );
+
+        buttons.forEach((button) => {
 
             button.classList.toggle(
                 "active",
                 button.dataset.template === templateName
             );
-
         });
 
-        localStorage.setItem(
-            "tcea-template",
-            templateName
-        );
+
+        /* Save selected template */
+
+        try {
+            localStorage.setItem(
+                "coverPageTemplate",
+                templateName
+            );
+        } catch (error) {
+            console.warn(
+                "Template could not be saved."
+            );
+        }
+
 
         showToast(
-            `Template changed to ${
-                templateName.charAt(0).toUpperCase() +
-                templateName.slice(1)
-            }`
+            `Template selected: ${templateName}`
         );
     }
 
-    templates.forEach((button) => {
 
-        button.addEventListener("click", () => {
+    document
+        .querySelectorAll(".template[data-template]")
+        .forEach((button) => {
 
-            const templateName =
-                button.dataset.template;
+            button.addEventListener("click", () => {
 
-            selectTemplate(templateName);
+                selectTemplate(
+                    button.dataset.template
+                );
+
+            });
 
         });
 
-    });
 
-    /* Restore saved template */
-    const savedTemplate =
-        localStorage.getItem("tcea-template");
-
-    if (savedTemplate) {
-        selectTemplate(savedTemplate);
-    }
-
-    /* Change Template button */
-
-    const templateBtn = $("templateBtn");
+    /* =====================================================
+       CHANGE TEMPLATE BUTTON
+       ===================================================== */
 
     if (templateBtn) {
 
         templateBtn.addEventListener("click", () => {
 
-            const strip = $("templateStrip");
+            if (!templateStrip) return;
 
-            if (strip) {
-
-                strip.scrollIntoView({
-                    behavior: "smooth",
-                    block: "center"
-                });
-
-            }
-
-            showToast("Choose a template below");
-
-        });
-
-    }
-
-    /* =====================================================
-       RESET BUTTON
-       ===================================================== */
-
-    const resetBtn = $("resetBtn");
-
-    if (resetBtn) {
-
-        resetBtn.addEventListener("click", () => {
-
-            const confirmed = confirm(
-                "Are you sure you want to clear all details?"
-            );
-
-            if (!confirmed) return;
-
-            formFields.forEach((id) => {
-
-                const element = $(id);
-
-                if (!element) return;
-
-                if (
-                    element.tagName === "SELECT"
-                ) {
-                    element.selectedIndex = 0;
-                } 
-                else {
-                    element.value = "";
-                }
-
+            templateStrip.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
             });
 
-            localStorage.removeItem(
-                "tcea-cover-data"
+            showToast(
+                "Choose a template below the preview."
             );
-
-            updatePreview();
-
-            showToast("All details have been reset.");
 
         });
 
     }
+
 
     /* =====================================================
        NEXT BUTTON
        ===================================================== */
 
-    const nextBtn = $("nextBtn");
-
     if (nextBtn) {
 
         nextBtn.addEventListener("click", () => {
 
-            const subject =
-                getValue("subject", "");
+            if (!valueOf(studentName, "")) {
 
-            const studentName =
-                getValue("studentName", "");
-
-            if (!subject) {
+                if (studentName) {
+                    studentName.focus();
+                }
 
                 showToast(
-                    "Please enter the Subject / Course Title."
+                    "Please enter the student name."
                 );
 
-                $("subject")?.focus();
-
                 return;
-
             }
 
-            if (!studentName) {
+
+            if (!valueOf(subject, "")) {
+
+                if (subject) {
+                    subject.focus();
+                }
 
                 showToast(
-                    "Please enter the Student Name."
+                    "Please enter the subject / course title."
                 );
 
-                $("studentName")?.focus();
-
                 return;
-
             }
 
-            const strip = $("templateStrip");
 
-            if (strip) {
+            if (templateStrip) {
 
-                strip.scrollIntoView({
+                templateStrip.scrollIntoView({
                     behavior: "smooth",
                     block: "center"
                 });
@@ -401,18 +520,84 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             showToast(
-                "Details saved. Now choose a template."
+                "Details updated. Choose your template."
             );
 
         });
 
     }
 
+
+    /* =====================================================
+       RESET
+       ===================================================== */
+
+    if (resetBtn) {
+
+        resetBtn.addEventListener("click", () => {
+
+            const confirmed = confirm(
+                "Reset all entered details?"
+            );
+
+            if (!confirmed) return;
+
+
+            formElements.forEach((element) => {
+
+                if (!element) return;
+
+                if (element.tagName === "SELECT") {
+
+                    element.selectedIndex = 0;
+
+                } else {
+
+                    element.value = "";
+
+                }
+
+            });
+
+
+            /* Restore date */
+
+            if (submissionDate) {
+
+                const today = new Date();
+
+                const year =
+                    today.getFullYear();
+
+                const month =
+                    String(
+                        today.getMonth() + 1
+                    ).padStart(2, "0");
+
+                const day =
+                    String(
+                        today.getDate()
+                    ).padStart(2, "0");
+
+                submissionDate.value =
+                    `${year}-${month}-${day}`;
+            }
+
+
+            updatePreview();
+
+            showToast(
+                "Form has been reset."
+            );
+
+        });
+
+    }
+
+
     /* =====================================================
        PRINT
        ===================================================== */
-
-    const printBtn = $("printBtn");
 
     if (printBtn) {
 
@@ -421,18 +606,19 @@ document.addEventListener("DOMContentLoaded", () => {
             updatePreview();
 
             setTimeout(() => {
+
                 window.print();
-            }, 150);
+
+            }, 100);
 
         });
 
     }
 
+
     /* =====================================================
        DOWNLOAD PDF
        ===================================================== */
-
-    const downloadBtn = $("downloadBtn");
 
     if (downloadBtn) {
 
@@ -443,60 +629,93 @@ document.addEventListener("DOMContentLoaded", () => {
                 updatePreview();
 
                 if (
-                    typeof html2canvas === "undefined" ||
-                    typeof window.jspdf === "undefined"
+                    typeof html2canvas ===
+                    "undefined"
                 ) {
 
                     showToast(
-                        "PDF library could not be loaded. Check your internet connection."
+                        "PDF library is not loaded."
                     );
 
                     return;
                 }
 
+
+                if (
+                    typeof window.jspdf ===
+                    "undefined"
+                ) {
+
+                    showToast(
+                        "PDF library is not loaded."
+                    );
+
+                    return;
+                }
+
+
                 const originalText =
                     downloadBtn.textContent;
 
                 downloadBtn.disabled = true;
+
                 downloadBtn.textContent =
-                    "Generating PDF...";
+                    "Generating...";
+
 
                 try {
 
                     const canvas =
-                        await html2canvas(a4, {
-                            scale: 2,
-                            useCORS: true,
-                            backgroundColor: "#ffffff",
-                            logging: false
-                        });
+                        await html2canvas(
+                            a4,
+                            {
+                                scale: 2,
 
-                    const imgData =
-                        canvas.toDataURL(
-                            "image/png",
-                            1.0
+                                useCORS: true,
+
+                                backgroundColor: "#ffffff",
+
+                                logging: false,
+
+                                imageTimeout: 15000
+                            }
                         );
+
 
                     const {
                         jsPDF
                     } = window.jspdf;
 
+
                     const pdf =
-                        new jsPDF({
-                            orientation: "portrait",
-                            unit: "mm",
-                            format: "a4"
-                        });
+                        new jsPDF(
+                            {
+                                orientation: "portrait",
 
-                    const pageWidth =
-                        pdf.internal.pageSize.getWidth();
+                                unit: "mm",
 
-                    const pageHeight =
-                        pdf.internal.pageSize.getHeight();
+                                format: "a4",
+
+                                compress: true
+                            }
+                        );
+
+
+                    const imgData =
+                        canvas.toDataURL(
+                            "image/jpeg",
+                            0.95
+                        );
+
+
+                    const pageWidth = 210;
+
+                    const pageHeight = 297;
+
 
                     pdf.addImage(
                         imgData,
-                        "PNG",
+                        "JPEG",
                         0,
                         0,
                         pageWidth,
@@ -505,33 +724,53 @@ document.addEventListener("DOMContentLoaded", () => {
                         "FAST"
                     );
 
-                    const studentName =
-                        getValue(
-                            "studentName",
+
+                    const student =
+                        valueOf(
+                            studentName,
                             "Student"
-                        )
-                        .replace(
-                            /[^a-zA-Z0-9_-]/g,
-                            "_"
                         );
 
-                    const subject =
-                        getValue(
-                            "subject",
-                            "Cover_Page"
-                        )
-                        .replace(
-                            /[^a-zA-Z0-9_-]/g,
-                            "_"
+                    const subjectValue =
+                        valueOf(
+                            subject,
+                            "Cover-Page"
                         );
+
+
+                    const safeStudent =
+                        student
+                            .replace(
+                                /[^a-z0-9]+/gi,
+                                "_"
+                            )
+                            .replace(
+                                /^_+|_+$/g,
+                                ""
+                            );
+
+
+                    const safeSubject =
+                        subjectValue
+                            .replace(
+                                /[^a-z0-9]+/gi,
+                                "_"
+                            )
+                            .replace(
+                                /^_+|_+$/g,
+                                ""
+                            );
+
 
                     const filename =
-                        `TCEA_${studentName}_${subject}.pdf`;
+                        `${safeSubject || "Cover-Page"}_${safeStudent || "Student"}.pdf`;
+
 
                     pdf.save(filename);
 
+
                     showToast(
-                        "PDF downloaded successfully!"
+                        "PDF downloaded successfully."
                     );
 
                 } catch (error) {
@@ -542,12 +781,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     );
 
                     showToast(
-                        "Unable to generate PDF. Please try Print instead."
+                        "Unable to generate PDF."
                     );
 
                 } finally {
 
                     downloadBtn.disabled = false;
+
                     downloadBtn.textContent =
                         originalText;
 
@@ -558,158 +798,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
-    /* =====================================================
-       LOCAL STORAGE
-       ===================================================== */
-
-    function saveFormData() {
-
-        const data = {};
-
-        formFields.forEach((id) => {
-
-            const element = $(id);
-
-            if (!element) return;
-
-            data[id] = element.value;
-
-        });
-
-        localStorage.setItem(
-            "tcea-cover-data",
-            JSON.stringify(data)
-        );
-
-    }
-
-    function loadFormData() {
-
-        const saved =
-            localStorage.getItem(
-                "tcea-cover-data"
-            );
-
-        if (!saved) return;
-
-        try {
-
-            const data =
-                JSON.parse(saved);
-
-            formFields.forEach((id) => {
-
-                const element = $(id);
-
-                if (
-                    element &&
-                    data[id] !== undefined
-                ) {
-
-                    element.value = data[id];
-
-                }
-
-            });
-
-        } catch (error) {
-
-            console.error(
-                "Could not restore saved data:",
-                error
-            );
-
-        }
-
-    }
-
-    /* =====================================================
-       MY DOCUMENTS
-       ===================================================== */
-
-    const docsBtn = $("docsBtn");
-
-    if (docsBtn) {
-
-        docsBtn.addEventListener(
-            "click",
-            () => {
-
-                const saved =
-                    localStorage.getItem(
-                        "tcea-cover-data"
-                    );
-
-                if (!saved) {
-
-                    showToast(
-                        "No saved document found."
-                    );
-
-                    return;
-
-                }
-
-                try {
-
-                    const data =
-                        JSON.parse(saved);
-
-                    let message =
-                        "Saved Cover Page\n\n";
-
-                    message +=
-                        `Student: ${
-                            data.studentName || "—"
-                        }\n`;
-
-                    message +=
-                        `Subject: ${
-                            data.subject || "—"
-                        }\n`;
-
-                    message +=
-                        `Course Code: ${
-                            data.subjectCode || "—"
-                        }\n`;
-
-                    message +=
-                        `Semester: ${
-                            data.semester || "—"
-                        }\n`;
-
-                    message +=
-                        `Session: ${
-                            data.session || "—"
-                        }\n\n`;
-
-                    message +=
-                        "The details are stored locally in this browser.";
-
-                    alert(message);
-
-                } catch (error) {
-
-                    showToast(
-                        "Unable to open saved document."
-                    );
-
-                }
-
-            }
-        );
-
-    }
 
     /* =====================================================
        ABOUT LINK
        ===================================================== */
 
-    const aboutLink = $("aboutLink");
-    const aboutSection = $("about");
-    const generator = $("generator");
-
-    if (aboutLink && aboutSection) {
+    if (aboutLink) {
 
         aboutLink.addEventListener(
             "click",
@@ -717,10 +811,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 event.preventDefault();
 
-                aboutSection.hidden = false;
+                if (!aboutSection) return;
+
+
+                aboutSection.hidden =
+                    false;
+
 
                 aboutSection.scrollIntoView({
-                    behavior: "smooth"
+                    behavior: "smooth",
+                    block: "start"
                 });
 
             }
@@ -728,45 +828,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
-    /* =====================================================
-       CONTACT
-       ===================================================== */
-
-    const contactLink =
-        document.querySelector(
-            'a[href="#contact"]'
-        );
-
-    const contactSection =
-        $("contact");
-
-    if (
-        contactLink &&
-        contactSection
-    ) {
-
-        contactLink.addEventListener(
-            "click",
-            (event) => {
-
-                event.preventDefault();
-
-                contactSection.scrollIntoView({
-                    behavior: "smooth"
-                });
-
-            }
-        );
-
-    }
 
     /* =====================================================
-       HOME
+       HOME LINK
        ===================================================== */
 
     const homeLink =
         document.querySelector(
-            'a[href="#generator"]'
+            '.topbar nav a[href="#generator"]'
         );
 
     if (homeLink) {
@@ -777,14 +846,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 event.preventDefault();
 
-                if (aboutSection) {
-                    aboutSection.hidden = true;
-                }
+                const generator =
+                    $("generator");
 
                 if (generator) {
 
                     generator.scrollIntoView({
-                        behavior: "smooth"
+                        behavior: "smooth",
+                        block: "start"
                     });
 
                 }
@@ -794,39 +863,112 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
+
     /* =====================================================
-       TOAST
+       CONTACT LINK
        ===================================================== */
 
-    function showToast(message) {
-
-        const toast = $("toast");
-
-        if (!toast) return;
-
-        toast.textContent = message;
-
-        toast.classList.add("show");
-
-        clearTimeout(
-            window.tceaToastTimer
+    const contactLink =
+        document.querySelector(
+            '.topbar nav a[href="#contact"]'
         );
 
-        window.tceaToastTimer =
-            setTimeout(() => {
+    if (contactLink) {
 
-                toast.classList.remove("show");
+        contactLink.addEventListener(
+            "click",
+            (event) => {
 
-            }, 2500);
+                event.preventDefault();
+
+                const contact =
+                    $("contact");
+
+                if (contact) {
+
+                    contact.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start"
+                    });
+
+                }
+
+            }
+        );
 
     }
 
+
     /* =====================================================
-       INITIALIZATION
+       MY DOCUMENTS
        ===================================================== */
 
-    loadFormData();
+    if (docsBtn) {
+
+        docsBtn.addEventListener(
+            "click",
+            () => {
+
+                showToast(
+                    "Documents are generated locally. No login is required."
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       LOAD SAVED TEMPLATE
+       ===================================================== */
+
+    try {
+
+        const savedTemplate =
+            localStorage.getItem(
+                "coverPageTemplate"
+            );
+
+        if (savedTemplate) {
+
+            selectTemplate(
+                savedTemplate
+            );
+
+        }
+
+    } catch (error) {
+
+        console.warn(
+            "Saved template unavailable."
+        );
+
+    }
+
+
+    /* =====================================================
+       INITIAL PREVIEW
+       ===================================================== */
 
     updatePreview();
+
+
+    /* =====================================================
+       MOBILE SAFETY
+       ===================================================== */
+
+    /*
+       Prevent accidental zoom behaviour from causing
+       layout problems when interacting with form controls.
+    */
+
+    document.addEventListener(
+        "touchstart",
+        () => {},
+        {
+            passive: true
+        }
+    );
 
 });

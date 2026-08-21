@@ -1,506 +1,832 @@
-const $ = (id) => document.getElementById(id);
+/* =========================================================
+   TCEA STUDENT COVER PAGE MAKER
+   app.js
+   ========================================================= */
 
-const ids = [
-    'courseLevel',
-    'branch',
-    'semester',
-    'subject',
-    'subjectCode',
-    'session',
-    'studentName',
-    'studentId',
-    'tuRoll',
-    'tuReg',
-    'facultyDept',
-    'facultyName',
-    'designation',
-    'faculty2Name',
-    'faculty2Dept',
-    'faculty2Designation',
-    'submissionType',
-    'submissionDate'
-];
+document.addEventListener("DOMContentLoaded", () => {
 
-const fields = Object.fromEntries(
-    ids.map(id => [id, $(id)])
-);
+    /* =====================================================
+       HELPER FUNCTIONS
+       ===================================================== */
 
-const preview = {
-    subject: $('pSubject'),
-    code: $('pCode'),
+    const $ = (id) => document.getElementById(id);
 
-    faculty: $('pFaculty'),
-    designation: $('pDesignation'),
-    dept: $('pDept'),
+    const getValue = (id, fallback = "—") => {
+        const element = $(id);
+        if (!element) return fallback;
 
-    faculty2Block: $('pFaculty2Block'),
-    faculty2Name: $('pFaculty2Name'),
-    faculty2Designation: $('pFaculty2Designation'),
-    faculty2Dept: $('pFaculty2Dept'),
+        const value = element.value?.trim();
 
-    name: $('pName'),
-    id: $('pId'),
-    roll: $('pRoll'),
-    reg: $('pReg'),
-    branch: $('pBranch'),
-    sem: $('pSem'),
-    session: $('pSession'),
-    date: $('pDate'),
+        return value ? value : fallback;
+    };
 
-    type: $('docType')
-};
-
-
-function val(k, fallback = '—') {
-    return fields[k].value.trim() || fallback;
-}
-
-
-function formatDate(v) {
-
-    if (!v) {
-        return '—';
-    }
-
-    const [y, m, d] = v.split('-');
-
-    return `${d}/${m}/${y}`;
-}
-
-
-function render() {
-
-    preview.subject.textContent =
-        val('subject', 'Your Subject');
-
-    preview.code.textContent =
-        val('subjectCode', 'COURSE CODE');
-
-
-    preview.faculty.textContent =
-        val('facultyName', 'Faculty Name');
-
-    preview.designation.textContent =
-        val('designation', 'Lecturer');
-
-    preview.dept.textContent =
-        'Department of ' +
-        val('facultyDept', 'CSE');
-
-
-    const f2 = val('faculty2Name', '');
-
-    if (f2) {
-
-        preview.faculty2Block.hidden = false;
-
-        preview.faculty2Name.textContent = f2;
-
-        preview.faculty2Designation.textContent =
-            val('faculty2Designation', 'Lecturer');
-
-        preview.faculty2Dept.textContent =
-            'Department of ' +
-            val('faculty2Dept', 'CSE');
-
-    } else {
-
-        preview.faculty2Block.hidden = true;
-    }
-
-
-    preview.name.textContent =
-        val('studentName', 'Student Name');
-
-    preview.id.textContent =
-        'Student ID: ' +
-        val('studentId', '—');
-
-    preview.roll.textContent =
-        'TU Roll No.: ' +
-        val('tuRoll', '—');
-
-    preview.reg.textContent =
-        'TU Registration No.: ' +
-        val('tuReg', '—');
-
-    preview.branch.textContent =
-        'Branch: ' +
-        val('branch', '—');
-
-    preview.sem.textContent =
-        'Semester: ' +
-        val('semester', '—');
-
-    preview.session.textContent =
-        val('session', '2026-27');
-
-    preview.date.textContent =
-        formatDate(fields.submissionDate.value);
-
-    preview.type.textContent =
-        val('submissionType', 'Assignment-I').toUpperCase();
-
-
-    localStorage.setItem(
-        'tcea-cover-v2',
-        JSON.stringify(
-            Object.fromEntries(
-                ids.map(id => [
-                    id,
-                    fields[id].value
-                ])
-            )
-        )
-    );
-}
-
-
-ids.forEach(id => {
-
-    fields[id].addEventListener(
-        'input',
-        render
-    );
-
-    fields[id].addEventListener(
-        'change',
-        render
-    );
-});
-
-
-const aboutLink = $('aboutLink');
-
-if (aboutLink) {
-
-    aboutLink.addEventListener(
-        'click',
-        e => {
-
-            e.preventDefault();
-
-            const about = $('about');
-
-            about.hidden = false;
-
-            about.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-
-            history.replaceState(
-                null,
-                '',
-                '#about'
-            );
+    const setText = (id, value) => {
+        const element = $(id);
+        if (element) {
+            element.textContent = value;
         }
-    );
-}
+    };
 
+    /* =====================================================
+       FORM ELEMENTS
+       ===================================================== */
 
-window.addEventListener(
-    'hashchange',
-    () => {
+    const formFields = [
+        "courseLevel",
+        "branch",
+        "semester",
+        "subject",
+        "subjectCode",
+        "session",
+        "studentName",
+        "studentId",
+        "tuRoll",
+        "tuReg",
+        "facultyDept",
+        "facultyName",
+        "designation",
+        "faculty2Name",
+        "faculty2Dept",
+        "faculty2Designation",
+        "submissionType",
+        "submissionDate"
+    ];
 
-        if (location.hash === '#about') {
+    /* =====================================================
+       LIVE PREVIEW
+       ===================================================== */
 
-            const about = $('about');
+    function updatePreview() {
 
-            about.hidden = false;
-        }
-    }
-);
+        /* Course */
+        setText("pSubject", getValue("subject", "Your Subject"));
+        setText("pCode", getValue("subjectCode", "COURSE CODE"));
 
+        /* Faculty */
+        setText("pFaculty", getValue("facultyName", "Faculty Name"));
+        setText("pDesignation", getValue("designation", "Lecturer"));
 
-if (location.hash === '#about') {
-
-    $('about').hidden = false;
-}
-
-
-const a4 = $('a4');
-
-
-document
-    .querySelectorAll('.template')
-    .forEach(btn => {
-
-        btn.addEventListener(
-            'click',
-            () => {
-
-                document
-                    .querySelectorAll('.template')
-                    .forEach(x => {
-                        x.classList.remove('active');
-                    });
-
-
-                btn.classList.add('active');
-
-
-                a4.classList.remove(
-                    'classic',
-                    'border',
-                    'minimal',
-                    'lab'
-                );
-
-
-                a4.classList.add(
-                    btn.dataset.template
-                );
-
-
-                localStorage.setItem(
-                    'tcea-template',
-                    btn.dataset.template
-                );
-            }
-        );
-    });
-
-
-$('templateBtn').onclick = () => {
-
-    document
-        .getElementById('templateStrip')
-        .scrollIntoView({
-            behavior: 'smooth',
-            block: 'center'
-        });
-};
-
-
-$('resetBtn').onclick = () => {
-
-    ids.forEach(id => {
-        fields[id].value = '';
-    });
-
-
-    fields.session.value = '2026-27';
-
-    fields.courseLevel.value = 'B.Tech';
-
-    fields.semester.value = '1st Semester';
-
-    fields.branch.selectedIndex = 0;
-
-    fields.facultyDept.selectedIndex = 0;
-
-    fields.faculty2Dept.selectedIndex = 0;
-
-    fields.faculty2Designation.value =
-        'Lecturer';
-
-    fields.designation.value =
-        'Lecturer';
-
-    fields.submissionType.value =
-        'Assignment-I';
-
-
-    render();
-
-    toast('Form reset');
-};
-
-
-$('nextBtn').onclick = () => {
-
-    document
-        .querySelector(
-            '.step:nth-of-type(1)'
-        )
-        ?.classList.remove('active');
-
-
-    document
-        .querySelectorAll('.step')[1]
-        .classList.add('active');
-
-
-    document
-        .getElementById('templateStrip')
-        .scrollIntoView({
-            behavior: 'smooth',
-            block: 'center'
-        });
-
-
-    toast('Choose a template below');
-};
-
-
-$('printBtn').onclick = () => {
-
-    window.print();
-};
-
-
-$('downloadBtn').onclick = async () => {
-
-    if (
-        !window.html2canvas ||
-        !window.jspdf
-    ) {
-
-        toast(
-            'PDF libraries are loading. Try again.'
+        const facultyDept = getValue(
+            "facultyDept",
+            "Computer Science & Engineering"
         );
 
-        return;
-    }
+        setText("pDept", facultyDept);
 
+        /* Student */
+        setText("pName", getValue("studentName", "Student Name"));
 
-    const btn = $('downloadBtn');
-
-    btn.disabled = true;
-
-    btn.textContent = 'Generating…';
-
-
-    try {
-
-        const canvas =
-            await html2canvas(
-                a4,
-                {
-                    scale: 2.2,
-                    useCORS: true,
-                    backgroundColor: '#fff'
-                }
-            );
-
-
-        const { jsPDF } =
-            window.jspdf;
-
-
-        const pdf =
-            new jsPDF({
-                orientation: 'portrait',
-                unit: 'mm',
-                format: 'a4'
-            });
-
-
-        pdf.addImage(
-            canvas.toDataURL(
-                'image/jpeg',
-                0.96
-            ),
-            'JPEG',
-            0,
-            0,
-            210,
-            297
+        setText(
+            "pId",
+            `Student ID: ${getValue("studentId")}`
         );
 
-
-        pdf.save(
-            'TCEA_Assignment_Cover_Page.pdf'
+        setText(
+            "pRoll",
+            `TU Roll No.: ${getValue("tuRoll")}`
         );
 
-
-        toast('PDF downloaded');
-
-    } finally {
-
-        btn.disabled = false;
-
-        btn.textContent =
-            '⇩ Download PDF';
-    }
-};
-
-
-$('docsBtn').onclick = () => {
-
-    const data =
-        localStorage.getItem(
-            'tcea-cover-v2'
+        setText(
+            "pReg",
+            `TU Registration No.: ${getValue("tuReg")}`
         );
 
-
-    toast(
-        data
-            ? 'Your latest draft is saved in this browser.'
-            : 'No saved document yet.'
-    );
-};
-
-
-function toast(t) {
-
-    const el = $('toast');
-
-    el.textContent = t;
-
-    el.classList.add('show');
-
-
-    setTimeout(
-        () => {
-            el.classList.remove('show');
-        },
-        2200
-    );
-}
-
-
-try {
-
-    const saved =
-        JSON.parse(
-            localStorage.getItem(
-                'tcea-cover-v2'
-            ) || '{}'
+        setText(
+            "pBranch",
+            `Branch: ${getValue("branch")}`
         );
 
+        setText(
+            "pSem",
+            `Semester: ${getValue("semester")}`
+        );
 
-    ids.forEach(id => {
+        /* Session */
+        setText(
+            "pSession",
+            getValue("session", "2026-27")
+        );
+
+        /* Submission type */
+        const submissionType = getValue(
+            "submissionType",
+            "Assignment-I"
+        );
+
+        let documentType = "ASSIGNMENT";
 
         if (
-            saved[id] !== undefined
+            submissionType.toLowerCase().includes("lab")
         ) {
-
-            fields[id].value =
-                saved[id];
+            documentType = "LAB COPY";
+        } 
+        else if (
+            submissionType.toLowerCase().includes("practical")
+        ) {
+            documentType = "PRACTICAL REPORT";
         }
-    });
 
+        setText("docType", documentType);
 
-    const tpl =
-        localStorage.getItem(
-            'tcea-template'
-        ) || 'classic';
+        /* Date */
+        const dateValue = $("submissionDate")?.value;
 
+        if (dateValue) {
 
-    const safeTpl =
-        [
-            'classic',
-            'border',
-            'minimal',
-            'lab'
-        ].includes(tpl)
-            ? tpl
-            : 'classic';
+            const date = new Date(dateValue);
 
+            const formattedDate =
+                date.toLocaleDateString("en-IN", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric"
+                });
 
-    const b =
-        document.querySelector(
-            `[data-template="${safeTpl}"]`
+            setText("pDate", formattedDate);
+
+        } else {
+
+            setText("pDate", "—");
+
+        }
+
+        /* =================================================
+           SECOND FACULTY
+           ================================================= */
+
+        const faculty2Name = getValue(
+            "faculty2Name",
+            ""
         );
 
+        const faculty2Block = $("pFaculty2Block");
 
-    if (b) {
-        b.click();
+        if (faculty2Block) {
+
+            if (faculty2Name) {
+
+                faculty2Block.hidden = false;
+
+                setText(
+                    "pFaculty2Name",
+                    faculty2Name
+                );
+
+                setText(
+                    "pFaculty2Designation",
+                    getValue(
+                        "faculty2Designation",
+                        "Lecturer"
+                    )
+                );
+
+                setText(
+                    "pFaculty2Dept",
+                    getValue(
+                        "faculty2Dept",
+                        "Computer Science & Engineering"
+                    )
+                );
+
+            } else {
+
+                faculty2Block.hidden = true;
+
+            }
+        }
+
+        saveFormData();
     }
 
-} catch (e) {}
+    /* =====================================================
+       INPUT LISTENERS
+       ===================================================== */
 
+    formFields.forEach((id) => {
 
-render();
+        const element = $(id);
+
+        if (!element) return;
+
+        element.addEventListener("input", updatePreview);
+        element.addEventListener("change", updatePreview);
+
+    });
+
+    /* =====================================================
+       TEMPLATE SYSTEM
+       ===================================================== */
+
+    const templates = document.querySelectorAll(".template");
+    const a4 = $("a4");
+
+    function selectTemplate(templateName) {
+
+        if (!a4) return;
+
+        /* Remove previous template classes */
+        a4.classList.remove(
+            "classic",
+            "border",
+            "minimal",
+            "lab"
+        );
+
+        /* Add selected template */
+        a4.classList.add(templateName);
+
+        /* Update buttons */
+        templates.forEach((button) => {
+
+            button.classList.toggle(
+                "active",
+                button.dataset.template === templateName
+            );
+
+        });
+
+        localStorage.setItem(
+            "tcea-template",
+            templateName
+        );
+
+        showToast(
+            `Template changed to ${
+                templateName.charAt(0).toUpperCase() +
+                templateName.slice(1)
+            }`
+        );
+    }
+
+    templates.forEach((button) => {
+
+        button.addEventListener("click", () => {
+
+            const templateName =
+                button.dataset.template;
+
+            selectTemplate(templateName);
+
+        });
+
+    });
+
+    /* Restore saved template */
+    const savedTemplate =
+        localStorage.getItem("tcea-template");
+
+    if (savedTemplate) {
+        selectTemplate(savedTemplate);
+    }
+
+    /* Change Template button */
+
+    const templateBtn = $("templateBtn");
+
+    if (templateBtn) {
+
+        templateBtn.addEventListener("click", () => {
+
+            const strip = $("templateStrip");
+
+            if (strip) {
+
+                strip.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+
+            }
+
+            showToast("Choose a template below");
+
+        });
+
+    }
+
+    /* =====================================================
+       RESET BUTTON
+       ===================================================== */
+
+    const resetBtn = $("resetBtn");
+
+    if (resetBtn) {
+
+        resetBtn.addEventListener("click", () => {
+
+            const confirmed = confirm(
+                "Are you sure you want to clear all details?"
+            );
+
+            if (!confirmed) return;
+
+            formFields.forEach((id) => {
+
+                const element = $(id);
+
+                if (!element) return;
+
+                if (
+                    element.tagName === "SELECT"
+                ) {
+                    element.selectedIndex = 0;
+                } 
+                else {
+                    element.value = "";
+                }
+
+            });
+
+            localStorage.removeItem(
+                "tcea-cover-data"
+            );
+
+            updatePreview();
+
+            showToast("All details have been reset.");
+
+        });
+
+    }
+
+    /* =====================================================
+       NEXT BUTTON
+       ===================================================== */
+
+    const nextBtn = $("nextBtn");
+
+    if (nextBtn) {
+
+        nextBtn.addEventListener("click", () => {
+
+            const subject =
+                getValue("subject", "");
+
+            const studentName =
+                getValue("studentName", "");
+
+            if (!subject) {
+
+                showToast(
+                    "Please enter the Subject / Course Title."
+                );
+
+                $("subject")?.focus();
+
+                return;
+
+            }
+
+            if (!studentName) {
+
+                showToast(
+                    "Please enter the Student Name."
+                );
+
+                $("studentName")?.focus();
+
+                return;
+
+            }
+
+            const strip = $("templateStrip");
+
+            if (strip) {
+
+                strip.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+
+            }
+
+            showToast(
+                "Details saved. Now choose a template."
+            );
+
+        });
+
+    }
+
+    /* =====================================================
+       PRINT
+       ===================================================== */
+
+    const printBtn = $("printBtn");
+
+    if (printBtn) {
+
+        printBtn.addEventListener("click", () => {
+
+            updatePreview();
+
+            setTimeout(() => {
+                window.print();
+            }, 150);
+
+        });
+
+    }
+
+    /* =====================================================
+       DOWNLOAD PDF
+       ===================================================== */
+
+    const downloadBtn = $("downloadBtn");
+
+    if (downloadBtn) {
+
+        downloadBtn.addEventListener(
+            "click",
+            async () => {
+
+                updatePreview();
+
+                if (
+                    typeof html2canvas === "undefined" ||
+                    typeof window.jspdf === "undefined"
+                ) {
+
+                    showToast(
+                        "PDF library could not be loaded. Check your internet connection."
+                    );
+
+                    return;
+                }
+
+                const originalText =
+                    downloadBtn.textContent;
+
+                downloadBtn.disabled = true;
+                downloadBtn.textContent =
+                    "Generating PDF...";
+
+                try {
+
+                    const canvas =
+                        await html2canvas(a4, {
+                            scale: 2,
+                            useCORS: true,
+                            backgroundColor: "#ffffff",
+                            logging: false
+                        });
+
+                    const imgData =
+                        canvas.toDataURL(
+                            "image/png",
+                            1.0
+                        );
+
+                    const {
+                        jsPDF
+                    } = window.jspdf;
+
+                    const pdf =
+                        new jsPDF({
+                            orientation: "portrait",
+                            unit: "mm",
+                            format: "a4"
+                        });
+
+                    const pageWidth =
+                        pdf.internal.pageSize.getWidth();
+
+                    const pageHeight =
+                        pdf.internal.pageSize.getHeight();
+
+                    pdf.addImage(
+                        imgData,
+                        "PNG",
+                        0,
+                        0,
+                        pageWidth,
+                        pageHeight,
+                        undefined,
+                        "FAST"
+                    );
+
+                    const studentName =
+                        getValue(
+                            "studentName",
+                            "Student"
+                        )
+                        .replace(
+                            /[^a-zA-Z0-9_-]/g,
+                            "_"
+                        );
+
+                    const subject =
+                        getValue(
+                            "subject",
+                            "Cover_Page"
+                        )
+                        .replace(
+                            /[^a-zA-Z0-9_-]/g,
+                            "_"
+                        );
+
+                    const filename =
+                        `TCEA_${studentName}_${subject}.pdf`;
+
+                    pdf.save(filename);
+
+                    showToast(
+                        "PDF downloaded successfully!"
+                    );
+
+                } catch (error) {
+
+                    console.error(
+                        "PDF generation error:",
+                        error
+                    );
+
+                    showToast(
+                        "Unable to generate PDF. Please try Print instead."
+                    );
+
+                } finally {
+
+                    downloadBtn.disabled = false;
+                    downloadBtn.textContent =
+                        originalText;
+
+                }
+
+            }
+        );
+
+    }
+
+    /* =====================================================
+       LOCAL STORAGE
+       ===================================================== */
+
+    function saveFormData() {
+
+        const data = {};
+
+        formFields.forEach((id) => {
+
+            const element = $(id);
+
+            if (!element) return;
+
+            data[id] = element.value;
+
+        });
+
+        localStorage.setItem(
+            "tcea-cover-data",
+            JSON.stringify(data)
+        );
+
+    }
+
+    function loadFormData() {
+
+        const saved =
+            localStorage.getItem(
+                "tcea-cover-data"
+            );
+
+        if (!saved) return;
+
+        try {
+
+            const data =
+                JSON.parse(saved);
+
+            formFields.forEach((id) => {
+
+                const element = $(id);
+
+                if (
+                    element &&
+                    data[id] !== undefined
+                ) {
+
+                    element.value = data[id];
+
+                }
+
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Could not restore saved data:",
+                error
+            );
+
+        }
+
+    }
+
+    /* =====================================================
+       MY DOCUMENTS
+       ===================================================== */
+
+    const docsBtn = $("docsBtn");
+
+    if (docsBtn) {
+
+        docsBtn.addEventListener(
+            "click",
+            () => {
+
+                const saved =
+                    localStorage.getItem(
+                        "tcea-cover-data"
+                    );
+
+                if (!saved) {
+
+                    showToast(
+                        "No saved document found."
+                    );
+
+                    return;
+
+                }
+
+                try {
+
+                    const data =
+                        JSON.parse(saved);
+
+                    let message =
+                        "Saved Cover Page\n\n";
+
+                    message +=
+                        `Student: ${
+                            data.studentName || "—"
+                        }\n`;
+
+                    message +=
+                        `Subject: ${
+                            data.subject || "—"
+                        }\n`;
+
+                    message +=
+                        `Course Code: ${
+                            data.subjectCode || "—"
+                        }\n`;
+
+                    message +=
+                        `Semester: ${
+                            data.semester || "—"
+                        }\n`;
+
+                    message +=
+                        `Session: ${
+                            data.session || "—"
+                        }\n\n`;
+
+                    message +=
+                        "The details are stored locally in this browser.";
+
+                    alert(message);
+
+                } catch (error) {
+
+                    showToast(
+                        "Unable to open saved document."
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+    /* =====================================================
+       ABOUT LINK
+       ===================================================== */
+
+    const aboutLink = $("aboutLink");
+    const aboutSection = $("about");
+    const generator = $("generator");
+
+    if (aboutLink && aboutSection) {
+
+        aboutLink.addEventListener(
+            "click",
+            (event) => {
+
+                event.preventDefault();
+
+                aboutSection.hidden = false;
+
+                aboutSection.scrollIntoView({
+                    behavior: "smooth"
+                });
+
+            }
+        );
+
+    }
+
+    /* =====================================================
+       CONTACT
+       ===================================================== */
+
+    const contactLink =
+        document.querySelector(
+            'a[href="#contact"]'
+        );
+
+    const contactSection =
+        $("contact");
+
+    if (
+        contactLink &&
+        contactSection
+    ) {
+
+        contactLink.addEventListener(
+            "click",
+            (event) => {
+
+                event.preventDefault();
+
+                contactSection.scrollIntoView({
+                    behavior: "smooth"
+                });
+
+            }
+        );
+
+    }
+
+    /* =====================================================
+       HOME
+       ===================================================== */
+
+    const homeLink =
+        document.querySelector(
+            'a[href="#generator"]'
+        );
+
+    if (homeLink) {
+
+        homeLink.addEventListener(
+            "click",
+            (event) => {
+
+                event.preventDefault();
+
+                if (aboutSection) {
+                    aboutSection.hidden = true;
+                }
+
+                if (generator) {
+
+                    generator.scrollIntoView({
+                        behavior: "smooth"
+                    });
+
+                }
+
+            }
+        );
+
+    }
+
+    /* =====================================================
+       TOAST
+       ===================================================== */
+
+    function showToast(message) {
+
+        const toast = $("toast");
+
+        if (!toast) return;
+
+        toast.textContent = message;
+
+        toast.classList.add("show");
+
+        clearTimeout(
+            window.tceaToastTimer
+        );
+
+        window.tceaToastTimer =
+            setTimeout(() => {
+
+                toast.classList.remove("show");
+
+            }, 2500);
+
+    }
+
+    /* =====================================================
+       INITIALIZATION
+       ===================================================== */
+
+    loadFormData();
+
+    updatePreview();
+
+});

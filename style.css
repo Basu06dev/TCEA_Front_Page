@@ -1070,3 +1070,436 @@ footer {
 .a4.lab .doc-type {
     margin-bottom: 16px;
 }
+/* =========================================================
+   MOBILE RESPONSIVE FIX - V5
+   ========================================================= */
+
+/* Prevent horizontal scrolling */
+html,
+body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+/* =========================================================
+   TABLET / MOBILE
+   ========================================================= */
+
+@media (max-width: 1000px) {
+
+    .topbar {
+        position: sticky;
+        top: 0;
+        width: 100%;
+        min-height: 70px;
+        height: auto;
+        padding: 10px 16px;
+        gap: 12px;
+    }
+
+    .brand {
+        min-width: 0;
+        gap: 9px;
+    }
+
+    .brand img {
+        width: 45px;
+        height: 45px;
+        flex-shrink: 0;
+    }
+
+    .brand h1 {
+        font-size: 17px;
+        line-height: 1.2;
+    }
+
+    .brand p {
+        font-size: 11px;
+    }
+
+    .topbar nav {
+        gap: 8px;
+        flex-shrink: 0;
+    }
+
+    .topbar nav a {
+        display: none;
+    }
+
+    .topbar button {
+        padding: 9px 11px;
+        font-size: 11px;
+        white-space: nowrap;
+    }
+
+    .workspace {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        max-width: 100%;
+        margin: 12px auto 25px;
+        padding: 0 10px;
+        gap: 15px;
+    }
+
+    /* Show preview first */
+    .preview-card {
+        order: -1;
+        width: 100%;
+        padding: 12px;
+    }
+
+    .form-card {
+        width: 100%;
+        padding: 16px;
+    }
+
+    .grid.two {
+        grid-template-columns: 1fr;
+    }
+
+    .preview-head {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .preview-head h2 {
+        font-size: 17px;
+    }
+
+    .preview-head > div {
+        width: 100%;
+    }
+
+    .preview-head button {
+        flex: 1;
+        min-width: 0;
+    }
+
+    /* Template buttons scroll instead of overflowing */
+    .template-strip {
+        width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        flex-wrap: nowrap;
+        padding-bottom: 5px;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .template {
+        flex: 0 0 auto;
+        white-space: nowrap;
+    }
+
+    /* A4 preview container */
+    .a4-wrap {
+        width: 100%;
+        padding: 10px;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        background: #edf1f6;
+    }
+
+    /*
+       The actual A4 stays 794 x 1123 px.
+       JavaScript will scale it automatically.
+    */
+    .a4 {
+        width: 794px !important;
+        height: 1123px !important;
+        min-width: 794px !important;
+        max-width: 794px !important;
+        min-height: 1123px !important;
+        max-height: 1123px !important;
+
+        transform-origin: top center !important;
+
+        margin: 0 auto !important;
+
+        flex-shrink: 0;
+
+        box-shadow: 0 3px 15px rgba(0,0,0,.12);
+    }
+
+    .actions {
+        display: flex;
+        width: 100%;
+    }
+
+    .actions button {
+        min-height: 44px;
+    }
+}
+
+
+/* =========================================================
+   MOBILE PHONE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    body {
+        font-size: 14px;
+    }
+
+    /* ---------- HEADER ---------- */
+
+    .topbar {
+        padding: 9px 10px;
+        min-height: 62px;
+    }
+
+    .brand {
+        gap: 8px;
+    }
+
+    .brand img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .brand h1 {
+        font-size: 14px;
+        margin-bottom: 2px;
+    }
+
+    .brand p {
+        font-size: 9px;
+        line-height: 1.2;
+    }
+
+    .topbar button {
+        padding: 8px 9px;
+        font-size: 10px;
+        border-radius: 5px;
+    }
+
+
+    /* ---------- HERO ---------- */
+
+    .hero {
+        padding: 14px 10px;
+        font-size: 13px;
+    }
+
+    .hero p {
+        font-size: 12px;
+        margin-top: 5px;
+    }
+
+
+    /* ---------- WORKSPACE ---------- */
+
+    .workspace {
+        padding: 0 7px;
+        margin-top: 8px;
+        gap: 10px;
+    }
+
+
+    /* ---------- CARDS ---------- */
+
+    .form-card,
+    .preview-card {
+        border-radius: 8px;
+        padding: 12px;
+    }
+
+
+    /* ---------- STEPS ---------- */
+
+    .steps {
+        margin-bottom: 16px;
+    }
+
+    .step span {
+        width: 30px;
+        height: 30px;
+        font-size: 13px;
+    }
+
+    .step small {
+        font-size: 10px;
+    }
+
+    .steps i {
+        width: 35px;
+        margin: 0 5px;
+    }
+
+
+    /* ---------- FORM ---------- */
+
+    .section-title {
+        padding: 14px 0 10px;
+        font-size: 14px;
+    }
+
+    .grid {
+        gap: 11px;
+    }
+
+    .grid label {
+        font-size: 11px;
+    }
+
+    .grid input,
+    .grid select {
+        height: 42px;
+        font-size: 14px;
+        margin-top: 5px;
+    }
+
+
+    /* ---------- BUTTONS ---------- */
+
+    .actions {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .actions button {
+        width: 100%;
+    }
+
+
+    /* ---------- PREVIEW HEADER ---------- */
+
+    .preview-head {
+        gap: 9px;
+    }
+
+    .preview-head h2 {
+        font-size: 16px;
+    }
+
+    .preview-head > div {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 7px;
+    }
+
+    .preview-head button {
+        width: 100%;
+        min-height: 42px;
+        padding: 8px 6px;
+        font-size: 11px;
+    }
+
+    /*
+       Download PDF gets full width
+    */
+    #downloadBtn {
+        grid-column: 1 / -1;
+    }
+
+
+    /* ---------- A4 PREVIEW ---------- */
+
+    .a4-wrap {
+        padding: 6px;
+        width: 100%;
+        min-height: 300px;
+    }
+
+    .a4 {
+        width: 794px !important;
+        height: 1123px !important;
+        min-width: 794px !important;
+        min-height: 1123px !important;
+
+        transform-origin: top center !important;
+
+        margin: 0 auto !important;
+    }
+
+
+    /* ---------- HINT ---------- */
+
+    .hint {
+        font-size: 10px;
+        line-height: 1.4;
+    }
+
+
+    /* ---------- FOOTER ---------- */
+
+    footer {
+        padding: 18px 12px;
+        flex-direction: column;
+        text-align: center;
+        gap: 8px;
+    }
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 380px) {
+
+    .brand h1 {
+        font-size: 12px;
+    }
+
+    .brand p {
+        display: none;
+    }
+
+    .brand img {
+        width: 36px;
+        height: 36px;
+    }
+
+    .topbar button {
+        font-size: 9px;
+        padding: 7px;
+    }
+
+    .step small {
+        font-size: 9px;
+    }
+
+    .steps i {
+        width: 20px;
+    }
+}
+
+
+/* =========================================================
+   MOBILE A4 SCALING
+   ========================================================= */
+
+/*
+   The JavaScript calculates the correct scale based
+   on the available phone width.
+*/
+
+.a4.mobile-scaled {
+    transform-origin: top center !important;
+}
+
+
+/* =========================================================
+   PRINT OVERRIDE
+   ========================================================= */
+
+@media print {
+
+    .a4 {
+        width: 210mm !important;
+        height: 297mm !important;
+
+        min-width: 210mm !important;
+        min-height: 297mm !important;
+
+        max-width: 210mm !important;
+        max-height: 297mm !important;
+
+        transform: none !important;
+        margin: 0 !important;
+    }
+}

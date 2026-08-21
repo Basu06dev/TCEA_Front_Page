@@ -1,974 +1,1209 @@
 /* =========================================================
-   STUDENT COVER PAGE MAKER
+   TCEA STUDENT COVER PAGE MAKER
    ========================================================= */
 
-document.addEventListener("DOMContentLoaded", () => {
 
-    /* =====================================================
-       ELEMENTS
-       ===================================================== */
+/* =========================================================
+   HELPER
+========================================================= */
 
-    const $ = (id) => document.getElementById(id);
+function $(id) {
 
-    const courseLevel = $("courseLevel");
-    const branch = $("branch");
-    const semester = $("semester");
-    const subject = $("subject");
-    const subjectCode = $("subjectCode");
-    const session = $("session");
+    return document.getElementById(id);
 
-    const studentName = $("studentName");
-    const studentId = $("studentId");
-    const tuRoll = $("tuRoll");
-    const tuReg = $("tuReg");
-
-    const facultyDept = $("facultyDept");
-    const facultyName = $("facultyName");
-    const designation = $("designation");
-
-    const faculty2Name = $("faculty2Name");
-    const faculty2Dept = $("faculty2Dept");
-    const faculty2Designation = $("faculty2Designation");
-
-    const submissionType = $("submissionType");
-    const submissionDate = $("submissionDate");
-
-    const a4 = $("a4");
-
-    const pSubject = $("pSubject");
-    const pCode = $("pCode");
-
-    const pFaculty = $("pFaculty");
-    const pDesignation = $("pDesignation");
-    const pDept = $("pDept");
-
-    const pFaculty2Block = $("pFaculty2Block");
-    const pFaculty2Name = $("pFaculty2Name");
-    const pFaculty2Designation = $("pFaculty2Designation");
-    const pFaculty2Dept = $("pFaculty2Dept");
-
-    const pName = $("pName");
-    const pId = $("pId");
-    const pRoll = $("pRoll");
-    const pReg = $("pReg");
-    const pBranch = $("pBranch");
-    const pSem = $("pSem");
-
-    const pSession = $("pSession");
-    const pDate = $("pDate");
-
-    const docType = $("docType");
-
-    const resetBtn = $("resetBtn");
-    const nextBtn = $("nextBtn");
-
-    const templateBtn = $("templateBtn");
-    const downloadBtn = $("downloadBtn");
-    const printBtn = $("printBtn");
-
-    const templateStrip = $("templateStrip");
-
-    const aboutSection = $("about");
-    const aboutLink = $("aboutLink");
-
-    const toast = $("toast");
-
-    const docsBtn = $("docsBtn");
+}
 
 
-    /* =====================================================
-       DEFAULT VALUES
-       ===================================================== */
+/* =========================================================
+   FORM ELEMENTS
+========================================================= */
 
-    if (submissionDate && !submissionDate.value) {
-        const today = new Date();
+const fields = {
 
-        const year = today.getFullYear();
-        const month = String(today.getMonth() + 1).padStart(2, "0");
-        const day = String(today.getDate()).padStart(2, "0");
+    courseLevel: $("courseLevel"),
 
-        submissionDate.value = `${year}-${month}-${day}`;
+    branch: $("branch"),
+
+    semester: $("semester"),
+
+    subject: $("subject"),
+
+    subjectCode: $("subjectCode"),
+
+    session: $("session"),
+
+    studentName: $("studentName"),
+
+    studentId: $("studentId"),
+
+    tuRoll: $("tuRoll"),
+
+    tuReg: $("tuReg"),
+
+    facultyName: $("facultyName"),
+
+    designation: $("designation"),
+
+    facultyDept: $("facultyDept"),
+
+    faculty2Name: $("faculty2Name"),
+
+    faculty2Designation: $("faculty2Designation"),
+
+    faculty2Dept: $("faculty2Dept"),
+
+    submissionType: $("submissionType"),
+
+    submissionDate: $("submissionDate")
+
+};
+
+
+/* =========================================================
+   PREVIEW ELEMENTS
+========================================================= */
+
+const preview = {
+
+    a4: $("a4"),
+
+    subject: $("pSubject"),
+
+    code: $("pCode"),
+
+    faculty: $("pFaculty"),
+
+    designation: $("pDesignation"),
+
+    department: $("pDept"),
+
+    faculty2Block: $("pFaculty2Block"),
+
+    faculty2Name: $("pFaculty2Name"),
+
+    faculty2Designation:
+        $("pFaculty2Designation"),
+
+    faculty2Dept:
+        $("pFaculty2Dept"),
+
+    studentName:
+        $("pName"),
+
+    studentId:
+        $("pId"),
+
+    roll:
+        $("pRoll"),
+
+    registration:
+        $("pReg"),
+
+    branch:
+        $("pBranch"),
+
+    semester:
+        $("pSem"),
+
+    session:
+        $("pSession"),
+
+    sessionBottom:
+        $("pSessionBottom"),
+
+    date:
+        $("pDate"),
+
+    documentType:
+        $("docType"),
+
+    recordHeading:
+        $("pRecordHeading"),
+
+    recordCenterLogo:
+        $("recordCenterLogo")
+
+};
+
+
+/* =========================================================
+   CURRENT TEMPLATE
+========================================================= */
+
+let currentTemplate = "classic";
+
+
+/* =========================================================
+   SAFE TEXT
+========================================================= */
+
+function valueOrDash(value) {
+
+    if (
+        value === undefined ||
+        value === null ||
+        value.trim() === ""
+    ) {
+
+        return "—";
+
     }
 
+    return value.trim();
 
-    /* =====================================================
-       TOAST
-       ===================================================== */
+}
 
-    function showToast(message) {
 
-        if (!toast) return;
+/* =========================================================
+   FORMAT DATE
+========================================================= */
 
-        toast.textContent = message;
+function formatDate(dateValue) {
 
-        toast.classList.add("show");
+    if (!dateValue) {
 
-        clearTimeout(window.toastTimer);
+        return "—";
 
-        window.toastTimer = setTimeout(() => {
-            toast.classList.remove("show");
-        }, 2200);
     }
 
+    const date = new Date(
+        dateValue + "T00:00:00"
+    );
 
-    /* =====================================================
-       SAFE VALUE
-       ===================================================== */
+    if (Number.isNaN(date.getTime())) {
 
-    function valueOf(element, fallback = "") {
+        return "—";
 
-        if (!element) {
-            return fallback;
-        }
-
-        const value = element.value.trim();
-
-        return value || fallback;
     }
 
-
-    /* =====================================================
-       DATE FORMAT
-       ===================================================== */
-
-    function formatDate(dateValue) {
-
-        if (!dateValue) {
-            return "—";
-        }
-
-        const date = new Date(`${dateValue}T00:00:00`);
-
-        if (Number.isNaN(date.getTime())) {
-            return "—";
-        }
-
-        return date.toLocaleDateString("en-IN", {
+    return date.toLocaleDateString(
+        "en-IN",
+        {
             day: "2-digit",
             month: "2-digit",
             year: "numeric"
-        });
+        }
+    );
+
+}
+
+
+/* =========================================================
+   UPDATE PREVIEW
+========================================================= */
+
+function updatePreview() {
+
+
+    /* COURSE */
+
+    preview.subject.textContent =
+        valueOrDash(fields.subject.value);
+
+
+    preview.code.textContent =
+        valueOrDash(fields.subjectCode.value);
+
+
+    /* FACULTY */
+
+    preview.faculty.textContent =
+        valueOrDash(fields.facultyName.value);
+
+
+    preview.designation.textContent =
+        valueOrDash(fields.designation.value);
+
+
+    preview.department.textContent =
+        valueOrDash(fields.facultyDept.value);
+
+
+    /* SECOND FACULTY */
+
+    const faculty2 =
+        fields.faculty2Name.value.trim();
+
+
+    if (faculty2 !== "") {
+
+        preview.faculty2Block.hidden = false;
+
+        preview.faculty2Name.textContent =
+            faculty2;
+
+        preview.faculty2Designation.textContent =
+            valueOrDash(
+                fields.faculty2Designation.value
+            );
+
+        preview.faculty2Dept.textContent =
+            valueOrDash(
+                fields.faculty2Dept.value
+            );
+
+    } else {
+
+        preview.faculty2Block.hidden = true;
+
     }
 
 
-    /* =====================================================
-       DOCUMENT TYPE
-       ===================================================== */
+    /* STUDENT */
 
-    function getDocumentType() {
-
-        const type = valueOf(
-            submissionType,
-            "Assignment-I"
+    preview.studentName.textContent =
+        valueOrDash(
+            fields.studentName.value
         );
 
-        if (type === "Lab Copy") {
-            return "LAB COPY";
-        }
 
-        if (type === "Practical Report") {
-            return "PRACTICAL REPORT";
-        }
+    preview.studentId.textContent =
+        "Student ID: " +
+        valueOrDash(
+            fields.studentId.value
+        );
 
-        if (type === "Assignment-II") {
-            return "ASSIGNMENT-II";
-        }
 
-        return "ASSIGNMENT-I";
+    preview.roll.textContent =
+        "TU Roll No.: " +
+        valueOrDash(
+            fields.tuRoll.value
+        );
+
+
+    preview.registration.textContent =
+        "TU Registration No.: " +
+        valueOrDash(
+            fields.tuReg.value
+        );
+
+
+    /* PROGRAM */
+
+    const level =
+        valueOrDash(
+            fields.courseLevel.value
+        );
+
+
+    const branch =
+        valueOrDash(
+            fields.branch.value
+        );
+
+
+    preview.branch.textContent =
+        "Program Level & Department: " +
+        level +
+        " (" +
+        branch +
+        ")";
+
+
+    /* SEMESTER */
+
+    preview.semester.textContent =
+        "Semester: " +
+        valueOrDash(
+            fields.semester.value
+        );
+
+
+    /* SESSION */
+
+    preview.session.textContent =
+        valueOrDash(
+            fields.session.value
+        );
+
+
+    preview.sessionBottom.textContent =
+        valueOrDash(
+            fields.session.value
+        );
+
+
+    /* DATE */
+
+    preview.date.textContent =
+        formatDate(
+            fields.submissionDate.value
+        );
+
+
+    /* DOCUMENT TYPE */
+
+    const submission =
+        fields.submissionType.value;
+
+
+    if (
+        submission ===
+        "Laboratory Record Book"
+    ) {
+
+        preview.documentType.textContent =
+            "LABORATORY RECORD BOOK";
+
+    } else if (
+        submission === "Lab Copy"
+    ) {
+
+        preview.documentType.textContent =
+            "LABORATORY RECORD";
+
+    } else if (
+        submission === "Practical Report"
+    ) {
+
+        preview.documentType.textContent =
+            "PRACTICAL REPORT";
+
+    } else {
+
+        preview.documentType.textContent =
+            submission.toUpperCase();
+
     }
 
 
-    /* =====================================================
-       UPDATE PREVIEW
-       ===================================================== */
+    updateTemplateContent();
 
-    function updatePreview() {
+    saveDraft();
 
-        if (!a4) return;
-
-        /* Course */
-
-        if (pSubject) {
-            pSubject.textContent = valueOf(
-                subject,
-                "Your Subject"
-            );
-        }
-
-        if (pCode) {
-            pCode.textContent = valueOf(
-                subjectCode,
-                "COURSE CODE"
-            );
-        }
+}
 
 
-        /* Faculty */
+/* =========================================================
+   TEMPLATE CONTENT
+========================================================= */
 
-        if (pFaculty) {
-            pFaculty.textContent = valueOf(
-                facultyName,
-                "Faculty Name"
-            );
-        }
-
-        if (pDesignation) {
-            pDesignation.textContent = valueOf(
-                designation,
-                "Lecturer"
-            );
-        }
-
-        if (pDept) {
-            pDept.textContent = valueOf(
-                facultyDept,
-                "Department of CSE"
-            );
-        }
+function updateTemplateContent() {
 
 
-        /* Second Faculty */
+    if (currentTemplate === "record") {
 
-        const secondFaculty = valueOf(
-            faculty2Name,
-            ""
-        );
+        preview.recordHeading.textContent =
+            "Laboratory Record Book";
 
-        if (secondFaculty) {
+    } else {
 
-            if (pFaculty2Block) {
-                pFaculty2Block.hidden = false;
-            }
+        preview.recordHeading.textContent =
+            "";
 
-            if (pFaculty2Name) {
-                pFaculty2Name.textContent = secondFaculty;
-            }
-
-            if (pFaculty2Designation) {
-                pFaculty2Designation.textContent =
-                    valueOf(
-                        faculty2Designation,
-                        "Lecturer"
-                    );
-            }
-
-            if (pFaculty2Dept) {
-                pFaculty2Dept.textContent =
-                    valueOf(
-                        faculty2Dept,
-                        "Department of CSE"
-                    );
-            }
-
-        } else {
-
-            if (pFaculty2Block) {
-                pFaculty2Block.hidden = true;
-            }
-        }
-
-
-        /* Student */
-
-        if (pName) {
-            pName.textContent = valueOf(
-                studentName,
-                "Student Name"
-            );
-        }
-
-        if (pId) {
-            pId.textContent =
-                "Student ID: " +
-                valueOf(studentId, "—");
-        }
-
-        if (pRoll) {
-            pRoll.textContent =
-                "TU Roll No.: " +
-                valueOf(tuRoll, "—");
-        }
-
-        if (pReg) {
-            pReg.textContent =
-                "TU Registration No.: " +
-                valueOf(tuReg, "—");
-        }
-
-        if (pBranch) {
-            pBranch.textContent =
-                "Branch: " +
-                valueOf(branch, "—");
-        }
-
-        if (pSem) {
-            pSem.textContent =
-                "Semester: " +
-                valueOf(semester, "—");
-        }
-
-
-        /* Bottom */
-
-        if (pSession) {
-            pSession.textContent = valueOf(
-                session,
-                "2026-27"
-            );
-        }
-
-        if (pDate) {
-            pDate.textContent = formatDate(
-                submissionDate?.value
-            );
-        }
-
-
-        /* Document */
-
-        if (docType) {
-            docType.textContent = getDocumentType();
-        }
     }
 
 
-    /* =====================================================
-       FORM INPUT EVENTS
-       ===================================================== */
+    /*
+       Automatically switch to laboratory
+       record style if user selects it.
+    */
 
-    const formElements = [
-        courseLevel,
-        branch,
-        semester,
-        subject,
-        subjectCode,
-        session,
+    if (
+        fields.submissionType.value ===
+        "Laboratory Record Book"
+    ) {
 
-        studentName,
-        studentId,
-        tuRoll,
-        tuReg,
+        if (currentTemplate === "classic") {
 
-        facultyDept,
-        facultyName,
-        designation,
+            setTemplate("record", false);
 
-        faculty2Name,
-        faculty2Dept,
-        faculty2Designation,
-
-        submissionType,
-        submissionDate
-    ];
-
-    formElements.forEach((element) => {
-
-        if (!element) return;
-
-        element.addEventListener("input", updatePreview);
-
-        element.addEventListener("change", updatePreview);
-    });
-
-
-    /* =====================================================
-       TEMPLATE SWITCHING
-       ===================================================== */
-
-    function selectTemplate(templateName) {
-
-        if (!a4) return;
-
-        const validTemplates = [
-            "classic",
-            "border",
-            "minimal",
-            "lab"
-        ];
-
-        if (!validTemplates.includes(templateName)) {
-            templateName = "classic";
         }
 
-        a4.classList.remove(
-            "classic",
-            "border",
-            "minimal",
-            "lab"
-        );
-
-        a4.classList.add(templateName);
-
-
-        /* Update active button */
-
-        const buttons = document.querySelectorAll(
-            ".template[data-template]"
-        );
-
-        buttons.forEach((button) => {
-
-            button.classList.toggle(
-                "active",
-                button.dataset.template === templateName
-            );
-        });
-
-
-        /* Save selected template */
-
-        try {
-            localStorage.setItem(
-                "coverPageTemplate",
-                templateName
-            );
-        } catch (error) {
-            console.warn(
-                "Template could not be saved."
-            );
-        }
-
-
-        showToast(
-            `Template selected: ${templateName}`
-        );
     }
+
+}
+
+
+/* =========================================================
+   TEMPLATE SWITCH
+========================================================= */
+
+function setTemplate(
+    templateName,
+    save = true
+) {
+
+
+    currentTemplate =
+        templateName;
+
+
+    preview.a4.classList.remove(
+
+        "classic",
+
+        "border",
+
+        "minimal",
+
+        "lab",
+
+        "record"
+
+    );
+
+
+    preview.a4.classList.add(
+        templateName
+    );
 
 
     document
-        .querySelectorAll(".template[data-template]")
-        .forEach((button) => {
+        .querySelectorAll(".template")
+        .forEach(button => {
 
-            button.addEventListener("click", () => {
+            button.classList.toggle(
 
-                selectTemplate(
+                "active",
+
+                button.dataset.template ===
+                templateName
+
+            );
+
+        });
+
+
+    if (save) {
+
+        localStorage.setItem(
+            "tcea-template",
+            templateName
+        );
+
+    }
+
+
+    resizeA4();
+
+}
+
+
+/* =========================================================
+   TEMPLATE BUTTONS
+========================================================= */
+
+document
+    .querySelectorAll(".template")
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                setTemplate(
                     button.dataset.template
                 );
 
-            });
+            }
+        );
 
-        });
+    });
 
 
-    /* =====================================================
-       CHANGE TEMPLATE BUTTON
-       ===================================================== */
+/* =========================================================
+   LIVE FORM UPDATE
+========================================================= */
 
-    if (templateBtn) {
+Object.values(fields)
+    .forEach(field => {
 
-        templateBtn.addEventListener("click", () => {
+        field.addEventListener(
+            "input",
+            updatePreview
+        );
 
-            if (!templateStrip) return;
+        field.addEventListener(
+            "change",
+            updatePreview
+        );
 
-            templateStrip.scrollIntoView({
-                behavior: "smooth",
-                block: "center"
-            });
+    });
 
-            showToast(
-                "Choose a template below the preview."
-            );
 
-        });
+/* =========================================================
+   MOBILE A4 SCALING
+========================================================= */
+
+function resizeA4() {
+
+
+    const viewer =
+        document.querySelector(
+            ".a4-viewer"
+        );
+
+
+    const scaleBox =
+        document.querySelector(
+            ".a4-scale-box"
+        );
+
+
+    if (!viewer || !scaleBox) {
+
+        return;
 
     }
 
 
-    /* =====================================================
-       NEXT BUTTON
-       ===================================================== */
+    const availableWidth =
+        viewer.clientWidth -
+        12;
 
-    if (nextBtn) {
 
-        nextBtn.addEventListener("click", () => {
+    const baseWidth = 794;
 
-            if (!valueOf(studentName, "")) {
 
-                if (studentName) {
-                    studentName.focus();
-                }
+    let scale =
+        availableWidth / baseWidth;
 
-                showToast(
-                    "Please enter the student name."
-                );
+
+    /*
+       Desktop should not become too large.
+    */
+
+    if (window.innerWidth > 1000) {
+
+        scale =
+            Math.min(scale, 1);
+
+    }
+
+
+    /*
+       Prevent extremely tiny preview.
+    */
+
+    scale =
+        Math.max(scale, 0.30);
+
+
+    preview.a4.style.setProperty(
+        "--a4-scale",
+        scale
+    );
+
+
+    scaleBox.style.height =
+        `${1123 * scale}px`;
+
+}
+
+
+/* =========================================================
+   RESIZE LISTENER
+========================================================= */
+
+window.addEventListener(
+    "resize",
+    resizeA4
+);
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+$("resetBtn")
+    .addEventListener(
+        "click",
+        () => {
+
+            if (
+                !confirm(
+                    "Reset all information?"
+                )
+            ) {
 
                 return;
+
             }
 
 
-            if (!valueOf(subject, "")) {
+            Object.values(fields)
+                .forEach(field => {
 
-                if (subject) {
-                    subject.focus();
-                }
+                    if (
+                        field.tagName ===
+                        "SELECT"
+                    ) {
 
-                showToast(
-                    "Please enter the subject / course title."
-                );
+                        field.selectedIndex = 0;
 
-                return;
-            }
+                    } else {
 
+                        field.value = "";
 
-            if (templateStrip) {
+                    }
 
-                templateStrip.scrollIntoView({
-                    behavior: "smooth",
-                    block: "center"
                 });
 
-            }
 
-            showToast(
-                "Details updated. Choose your template."
+            localStorage.removeItem(
+                "tcea-draft"
             );
 
-        });
 
-    }
-
-
-    /* =====================================================
-       RESET
-       ===================================================== */
-
-    if (resetBtn) {
-
-        resetBtn.addEventListener("click", () => {
-
-            const confirmed = confirm(
-                "Reset all entered details?"
+            setTemplate(
+                "classic"
             );
-
-            if (!confirmed) return;
-
-
-            formElements.forEach((element) => {
-
-                if (!element) return;
-
-                if (element.tagName === "SELECT") {
-
-                    element.selectedIndex = 0;
-
-                } else {
-
-                    element.value = "";
-
-                }
-
-            });
-
-
-            /* Restore date */
-
-            if (submissionDate) {
-
-                const today = new Date();
-
-                const year =
-                    today.getFullYear();
-
-                const month =
-                    String(
-                        today.getMonth() + 1
-                    ).padStart(2, "0");
-
-                const day =
-                    String(
-                        today.getDate()
-                    ).padStart(2, "0");
-
-                submissionDate.value =
-                    `${year}-${month}-${day}`;
-            }
 
 
             updatePreview();
+
 
             showToast(
                 "Form has been reset."
             );
 
-        });
-
-    }
-
-
-    /* =====================================================
-       PRINT
-       ===================================================== */
-
-    if (printBtn) {
-
-        printBtn.addEventListener("click", () => {
-
-            updatePreview();
-
-            setTimeout(() => {
-
-                window.print();
-
-            }, 100);
-
-        });
-
-    }
-
-
-    /* =====================================================
-       DOWNLOAD PDF
-       ===================================================== */
-
-    if (downloadBtn) {
-
-        downloadBtn.addEventListener(
-            "click",
-            async () => {
-
-                updatePreview();
-
-                if (
-                    typeof html2canvas ===
-                    "undefined"
-                ) {
-
-                    showToast(
-                        "PDF library is not loaded."
-                    );
-
-                    return;
-                }
-
-
-                if (
-                    typeof window.jspdf ===
-                    "undefined"
-                ) {
-
-                    showToast(
-                        "PDF library is not loaded."
-                    );
-
-                    return;
-                }
-
-
-                const originalText =
-                    downloadBtn.textContent;
-
-                downloadBtn.disabled = true;
-
-                downloadBtn.textContent =
-                    "Generating...";
-
-
-                try {
-
-                    const canvas =
-                        await html2canvas(
-                            a4,
-                            {
-                                scale: 2,
-
-                                useCORS: true,
-
-                                backgroundColor: "#ffffff",
-
-                                logging: false,
-
-                                imageTimeout: 15000
-                            }
-                        );
-
-
-                    const {
-                        jsPDF
-                    } = window.jspdf;
-
-
-                    const pdf =
-                        new jsPDF(
-                            {
-                                orientation: "portrait",
-
-                                unit: "mm",
-
-                                format: "a4",
-
-                                compress: true
-                            }
-                        );
-
-
-                    const imgData =
-                        canvas.toDataURL(
-                            "image/jpeg",
-                            0.95
-                        );
-
-
-                    const pageWidth = 210;
-
-                    const pageHeight = 297;
-
-
-                    pdf.addImage(
-                        imgData,
-                        "JPEG",
-                        0,
-                        0,
-                        pageWidth,
-                        pageHeight,
-                        undefined,
-                        "FAST"
-                    );
-
-
-                    const student =
-                        valueOf(
-                            studentName,
-                            "Student"
-                        );
-
-                    const subjectValue =
-                        valueOf(
-                            subject,
-                            "Cover-Page"
-                        );
-
-
-                    const safeStudent =
-                        student
-                            .replace(
-                                /[^a-z0-9]+/gi,
-                                "_"
-                            )
-                            .replace(
-                                /^_+|_+$/g,
-                                ""
-                            );
-
-
-                    const safeSubject =
-                        subjectValue
-                            .replace(
-                                /[^a-z0-9]+/gi,
-                                "_"
-                            )
-                            .replace(
-                                /^_+|_+$/g,
-                                ""
-                            );
-
-
-                    const filename =
-                        `${safeSubject || "Cover-Page"}_${safeStudent || "Student"}.pdf`;
-
-
-                    pdf.save(filename);
-
-
-                    showToast(
-                        "PDF downloaded successfully."
-                    );
-
-                } catch (error) {
-
-                    console.error(
-                        "PDF generation error:",
-                        error
-                    );
-
-                    showToast(
-                        "Unable to generate PDF."
-                    );
-
-                } finally {
-
-                    downloadBtn.disabled = false;
-
-                    downloadBtn.textContent =
-                        originalText;
-
-                }
-
-            }
-        );
-
-    }
-
-
-    /* =====================================================
-       ABOUT LINK
-       ===================================================== */
-
-    if (aboutLink) {
-
-        aboutLink.addEventListener(
-            "click",
-            (event) => {
-
-                event.preventDefault();
-
-                if (!aboutSection) return;
-
-
-                aboutSection.hidden =
-                    false;
-
-
-                aboutSection.scrollIntoView({
-                    behavior: "smooth",
-                    block: "start"
-                });
-
-            }
-        );
-
-    }
-
-
-    /* =====================================================
-       HOME LINK
-       ===================================================== */
-
-    const homeLink =
-        document.querySelector(
-            '.topbar nav a[href="#generator"]'
-        );
-
-    if (homeLink) {
-
-        homeLink.addEventListener(
-            "click",
-            (event) => {
-
-                event.preventDefault();
-
-                const generator =
-                    $("generator");
-
-                if (generator) {
-
-                    generator.scrollIntoView({
-                        behavior: "smooth",
-                        block: "start"
-                    });
-
-                }
-
-            }
-        );
-
-    }
-
-
-    /* =====================================================
-       CONTACT LINK
-       ===================================================== */
-
-    const contactLink =
-        document.querySelector(
-            '.topbar nav a[href="#contact"]'
-        );
-
-    if (contactLink) {
-
-        contactLink.addEventListener(
-            "click",
-            (event) => {
-
-                event.preventDefault();
-
-                const contact =
-                    $("contact");
-
-                if (contact) {
-
-                    contact.scrollIntoView({
-                        behavior: "smooth",
-                        block: "start"
-                    });
-
-                }
-
-            }
-        );
-
-    }
-
-
-    /* =====================================================
-       MY DOCUMENTS
-       ===================================================== */
-
-    if (docsBtn) {
-
-        docsBtn.addEventListener(
-            "click",
-            () => {
-
-                showToast(
-                    "Documents are generated locally. No login is required."
-                );
-
-            }
-        );
-
-    }
-
-
-    /* =====================================================
-       LOAD SAVED TEMPLATE
-       ===================================================== */
-
-    try {
-
-        const savedTemplate =
-            localStorage.getItem(
-                "coverPageTemplate"
-            );
-
-        if (savedTemplate) {
-
-            selectTemplate(
-                savedTemplate
-            );
-
-        }
-
-    } catch (error) {
-
-        console.warn(
-            "Saved template unavailable."
-        );
-
-    }
-
-
-    /* =====================================================
-       INITIAL PREVIEW
-       ===================================================== */
-
-    updatePreview();
-
-
-    /* =====================================================
-       MOBILE SAFETY
-       ===================================================== */
-
-    /*
-       Prevent accidental zoom behaviour from causing
-       layout problems when interacting with form controls.
-    */
-
-    document.addEventListener(
-        "touchstart",
-        () => {},
-        {
-            passive: true
         }
     );
 
-});
+
+/* =========================================================
+   NEXT BUTTON
+========================================================= */
+
+$("nextBtn")
+    .addEventListener(
+        "click",
+        () => {
+
+            document
+                .querySelector(
+                    ".template-strip"
+                )
+                .scrollIntoView({
+
+                    behavior: "smooth",
+
+                    block: "center"
+
+                });
+
+
+            showToast(
+                "Choose your preferred template."
+            );
+
+        }
+    );
+
+
+/* =========================================================
+   TEMPLATE BUTTON
+========================================================= */
+
+$("templateBtn")
+    .addEventListener(
+        "click",
+        () => {
+
+            document
+                .querySelector(
+                    ".template-strip"
+                )
+                .scrollIntoView({
+
+                    behavior: "smooth",
+
+                    block: "center"
+
+                });
+
+        }
+    );
+
+
+/* =========================================================
+   PRINT
+========================================================= */
+
+$("printBtn")
+    .addEventListener(
+        "click",
+        () => {
+
+            window.print();
+
+        }
+    );
+
+
+/* =========================================================
+   DOWNLOAD PDF
+========================================================= */
+
+$("downloadBtn")
+    .addEventListener(
+        "click",
+        async () => {
+
+
+            if (
+                typeof html2canvas ===
+                "undefined"
+            ) {
+
+                showToast(
+                    "PDF library is not loaded."
+                );
+
+                return;
+
+            }
+
+
+            if (
+                typeof window.jspdf ===
+                "undefined"
+            ) {
+
+                showToast(
+                    "PDF library is not loaded."
+                );
+
+                return;
+
+            }
+
+
+            showToast(
+                "Generating PDF..."
+            );
+
+
+            try {
+
+
+                const element =
+                    preview.a4;
+
+
+                /*
+                   Temporarily remove
+                   preview scaling.
+                */
+
+                const oldTransform =
+                    element.style.transform;
+
+
+                element.style.transform =
+                    "none";
+
+
+                const canvas =
+                    await html2canvas(
+                        element,
+                        {
+
+                            scale: 2,
+
+                            useCORS: true,
+
+                            backgroundColor:
+                                "#ffffff",
+
+                            width: 794,
+
+                            height: 1123
+
+                        }
+                    );
+
+
+                element.style.transform =
+                    oldTransform;
+
+
+                const imgData =
+                    canvas.toDataURL(
+                        "image/jpeg",
+                        0.95
+                    );
+
+
+                const {
+                    jsPDF
+                } = window.jspdf;
+
+
+                const pdf =
+                    new jsPDF(
+                        {
+
+                            orientation:
+                                "portrait",
+
+                            unit: "mm",
+
+                            format: "a4"
+
+                        }
+                    );
+
+
+                pdf.addImage(
+
+                    imgData,
+
+                    "JPEG",
+
+                    0,
+
+                    0,
+
+                    210,
+
+                    297,
+
+                    undefined,
+
+                    "FAST"
+
+                );
+
+
+                const name =
+                    fields.studentName.value
+                        .trim()
+                        .replace(
+                            /[^a-z0-9]+/gi,
+                            "_"
+                        ) ||
+                    "Student";
+
+
+                const subject =
+                    fields.subject.value
+                        .trim()
+                        .replace(
+                            /[^a-z0-9]+/gi,
+                            "_"
+                        ) ||
+                    "Cover_Page";
+
+
+                pdf.save(
+                    `TCEA_${subject}_${name}.pdf`
+                );
+
+
+                showToast(
+                    "PDF downloaded successfully."
+                );
+
+
+            } catch (error) {
+
+                console.error(error);
+
+                showToast(
+                    "Could not generate PDF."
+                );
+
+            }
+
+            resizeA4();
+
+        }
+    );
+
+
+/* =========================================================
+   ABOUT
+========================================================= */
+
+$("aboutLink")
+    .addEventListener(
+        "click",
+        event => {
+
+            event.preventDefault();
+
+
+            const about =
+                $("about");
+
+
+            about.hidden =
+                !about.hidden;
+
+
+            if (!about.hidden) {
+
+                about.scrollIntoView({
+
+                    behavior: "smooth"
+
+                });
+
+            }
+
+        }
+    );
+
+
+/* =========================================================
+   MY DOCUMENTS
+========================================================= */
+
+$("docsBtn")
+    .addEventListener(
+        "click",
+        () => {
+
+            const draft =
+                localStorage.getItem(
+                    "tcea-draft"
+                );
+
+
+            if (draft) {
+
+                showToast(
+                    "Your latest form data is saved in this browser."
+                );
+
+            } else {
+
+                showToast(
+                    "No saved document found."
+                );
+
+            }
+
+        }
+    );
+
+
+/* =========================================================
+   SAVE DRAFT
+========================================================= */
+
+function saveDraft() {
+
+
+    const data = {};
+
+
+    Object.keys(fields)
+        .forEach(key => {
+
+            data[key] =
+                fields[key].value;
+
+        });
+
+
+    localStorage.setItem(
+        "tcea-draft",
+        JSON.stringify(data)
+    );
+
+}
+
+
+/* =========================================================
+   LOAD DRAFT
+========================================================= */
+
+function loadDraft() {
+
+
+    const saved =
+        localStorage.getItem(
+            "tcea-draft"
+        );
+
+
+    if (!saved) {
+
+        return;
+
+    }
+
+
+    try {
+
+        const data =
+            JSON.parse(saved);
+
+
+        Object.keys(fields)
+            .forEach(key => {
+
+                if (
+                    data[key] !== undefined
+                ) {
+
+                    fields[key].value =
+                        data[key];
+
+                }
+
+            });
+
+
+    } catch (error) {
+
+        console.error(
+            "Could not load draft.",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+let toastTimer;
+
+
+function showToast(message) {
+
+
+    const toast =
+        $("toast");
+
+
+    toast.textContent =
+        message;
+
+
+    toast.classList.add(
+        "show"
+    );
+
+
+    clearTimeout(
+        toastTimer
+    );
+
+
+    toastTimer =
+        setTimeout(
+            () => {
+
+                toast.classList.remove(
+                    "show"
+                );
+
+            },
+            2500
+        );
+
+}
+
+
+/* =========================================================
+   LOAD SAVED TEMPLATE
+========================================================= */
+
+function loadTemplate() {
+
+
+    const saved =
+        localStorage.getItem(
+            "tcea-template"
+        );
+
+
+    if (
+        saved &&
+        [
+            "classic",
+            "border",
+            "minimal",
+            "lab",
+            "record"
+        ].includes(saved)
+    ) {
+
+        setTemplate(
+            saved,
+            false
+        );
+
+    } else {
+
+        setTemplate(
+            "classic",
+            false
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   SUBMISSION TYPE AUTOMATIC TEMPLATE
+========================================================= */
+
+fields.submissionType
+    .addEventListener(
+        "change",
+        () => {
+
+            if (
+                fields.submissionType.value ===
+                "Laboratory Record Book"
+            ) {
+
+                setTemplate(
+                    "record"
+                );
+
+                showToast(
+                    "Laboratory Record Book template selected."
+                );
+
+            }
+
+            updatePreview();
+
+        }
+    );
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        loadDraft();
+
+        loadTemplate();
+
+        updatePreview();
+
+        resizeA4();
+
+    }
+);
+
+
+/*
+   Also execute immediately because
+   this script is loaded at the bottom
+   of the HTML document.
+*/
+
+loadDraft();
+
+loadTemplate();
+
+updatePreview();
+
+resizeA4();

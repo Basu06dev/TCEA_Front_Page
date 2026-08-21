@@ -1,6 +1,6 @@
 /* =========================================================
-   GLOBAL
-   ========================================================= */
+   RESET
+========================================================= */
 
 * {
     box-sizing: border-box;
@@ -12,1360 +12,1736 @@ html {
 
 body {
     margin: 0;
-    font-family: Inter, "Segoe UI", Arial, sans-serif;
+    font-family:
+        Inter,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
     background: #f5f8fc;
     color: #16223b;
+
     overflow-x: hidden;
-}
-
-button,
-input,
-select {
-    font: inherit;
-}
-
-button {
-    -webkit-tap-highlight-color: transparent;
-}
-
-img {
-    max-width: 100%;
 }
 
 
 /* =========================================================
-   TOP BAR
-   ========================================================= */
+   HEADER
+========================================================= */
 
 .topbar {
-    min-height: 88px;
-    background: #fff;
-    border-bottom: 1px solid #dbe5f2;
+
+    min-height: 78px;
+
+    background: #ffffff;
+
+    border-bottom:
+        1px solid #dce5f1;
 
     display: flex;
+
     align-items: center;
+
     justify-content: space-between;
 
-    padding: 12px 28px;
+    gap: 20px;
+
+    padding:
+        10px clamp(14px, 3vw, 40px);
 
     position: sticky;
+
     top: 0;
+
     z-index: 100;
+
 }
+
 
 .brand {
+
     display: flex;
+
     align-items: center;
-    gap: 14px;
+
+    gap: 12px;
+
     min-width: 0;
+
 }
 
-.brand img {
-    width: 58px;
-    height: 58px;
+
+.brand-logo {
+
+    width: 52px;
+
+    height: 52px;
+
     object-fit: contain;
+
     flex-shrink: 0;
+
 }
 
-.brand h1 {
-    font-size: 20px;
-    margin: 0 0 5px;
-    color: #11285c;
+
+.brand-text {
+
+    min-width: 0;
+
 }
 
-.brand p {
+
+.brand-text h1 {
+
     margin: 0;
-    color: #66728b;
-    font-size: 14px;
+
+    color: #11285c;
+
+    font-size:
+        clamp(16px, 2vw, 21px);
+
 }
 
-.topbar nav {
+
+.brand-text p {
+
+    margin: 3px 0 0;
+
+    color: #6b7890;
+
+    font-size:
+        clamp(10px, 1.5vw, 13px);
+
+}
+
+
+.main-nav {
+
     display: flex;
+
     align-items: center;
-    gap: 25px;
+
+    gap: clamp(10px, 2vw, 24px);
+
 }
 
-.topbar nav a {
+
+.nav-link {
+
     color: #42516a;
+
     text-decoration: none;
-    font-weight: 600;
+
     font-size: 14px;
-    white-space: nowrap;
-}
 
-.topbar nav a.active {
-    color: #1461d2;
-    border-bottom: 2px solid #1461d2;
-    padding-bottom: 9px;
-}
-
-.topbar button,
-.primary,
-.outline,
-.secondary {
-    border: 0;
-    border-radius: 7px;
-    padding: 11px 16px;
     font-weight: 700;
-    cursor: pointer;
-    min-height: 40px;
+
+    white-space: nowrap;
+
 }
 
-.topbar button,
-.primary {
+
+.nav-link.active {
+
+    color: #1764d5;
+
+}
+
+
+.docs-button {
+
+    border: none;
+
     background: #1764d5;
-    color: #fff;
-}
 
-.primary:hover {
-    background: #1257be;
+    color: #ffffff;
+
+    border-radius: 8px;
+
+    padding: 10px 14px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    white-space: nowrap;
+
 }
 
 
 /* =========================================================
    HERO
-   ========================================================= */
+========================================================= */
 
 .hero {
-    background: #edf6ff;
-    border-bottom: 1px solid #d7e8fb;
+
+    background:
+        linear-gradient(
+            135deg,
+            #edf6ff,
+            #f7fbff
+        );
+
+    border-bottom:
+        1px solid #d8e7f7;
+
     text-align: center;
-    padding: 24px;
-    color: #1457aa;
+
+    padding:
+        clamp(22px, 4vw, 42px) 15px;
+
 }
 
+
+.hero-content {
+
+    max-width: 850px;
+
+    margin: auto;
+
+}
+
+
+.hero-badge {
+
+    display: inline-block;
+
+    background: #ffffff;
+
+    color: #1457aa;
+
+    border:
+        1px solid #d5e6fa;
+
+    border-radius: 30px;
+
+    padding: 7px 12px;
+
+    margin: 3px;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+}
+
+
+.hero h2 {
+
+    margin:
+        15px 0 8px;
+
+    color: #123b68;
+
+    font-size:
+        clamp(23px, 4vw, 36px);
+
+}
+
+
 .hero p {
-    margin: 8px 0 0;
-    color: #3e6da7;
+
+    margin: 0;
+
+    color: #58708e;
+
+    font-size:
+        clamp(13px, 2vw, 16px);
+
 }
 
 
 /* =========================================================
    WORKSPACE
-   ========================================================= */
+========================================================= */
 
 .workspace {
+
     width: 100%;
-    max-width: 1420px;
-    margin: 18px auto 30px;
-    padding: 0 18px;
+
+    max-width: 1450px;
+
+    margin:
+        22px auto 35px;
+
+    padding:
+        0 clamp(10px, 2vw, 22px);
 
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.18fr);
-    gap: 24px;
+
+    grid-template-columns:
+        minmax(320px, 0.9fr)
+        minmax(0, 1.1fr);
+
+    gap: 22px;
+
 }
 
 
 /* =========================================================
    CARDS
-   ========================================================= */
+========================================================= */
 
 .form-card,
 .preview-card {
-    background: #fff;
-    border: 1px solid #dce3ec;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px #122a5a0b;
-    min-width: 0;
+
+    background: #ffffff;
+
+    border:
+        1px solid #dce3ec;
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 5px 20px rgba(18, 42, 90, .06);
+
 }
 
+
 .form-card {
-    padding: 24px;
+
+    padding:
+        clamp(15px, 2vw, 25px);
+
+}
+
+
+.preview-card {
+
+    padding:
+        clamp(12px, 1.8vw, 20px);
+
+    min-width: 0;
+
 }
 
 
 /* =========================================================
    STEPS
-   ========================================================= */
+========================================================= */
 
 .steps {
+
     display: flex;
+
     align-items: center;
+
     justify-content: center;
-    margin-bottom: 22px;
+
+    margin-bottom: 25px;
+
 }
+
 
 .step {
+
     display: flex;
+
     flex-direction: column;
+
     align-items: center;
+
     gap: 5px;
 
-    color: #7a8497;
-    font-size: 12px;
-    font-weight: 700;
+    color: #8791a1;
 
-    white-space: nowrap;
+    font-size: 11px;
+
+    font-weight: 800;
+
 }
+
 
 .step span {
+
     width: 34px;
+
     height: 34px;
 
-    border: 1px solid #cbd3df;
     border-radius: 50%;
 
+    border:
+        1px solid #ccd5e2;
+
     display: grid;
+
     place-items: center;
 
-    background: #fff;
-    font-size: 15px;
+    background: #ffffff;
+
 }
+
 
 .step.active {
+
     color: #1764d5;
+
 }
+
 
 .step.active span {
+
     background: #1764d5;
-    color: #fff;
+
+    color: #ffffff;
+
     border-color: #1764d5;
+
 }
 
-.steps i {
+
+.step-line {
+
+    width: clamp(35px, 7vw, 85px);
+
     height: 1px;
-    width: 80px;
-    background: #d9e0ea;
-    margin: 0 8px;
+
+    background: #d7dfe9;
+
+    margin:
+        0 8px;
+
 }
 
 
 /* =========================================================
    SECTION TITLE
-   ========================================================= */
+========================================================= */
 
 .section-title {
+
     font-weight: 800;
+
     color: #1b376c;
 
-    border-top: 1px solid #e6ebf2;
+    border-top:
+        1px solid #e5ebf2;
 
-    padding: 18px 0 12px;
-    margin-top: 4px;
+    padding:
+        18px 0 11px;
+
+    margin-top: 5px;
+
 }
 
 
 /* =========================================================
-   FORM GRID
-   ========================================================= */
+   FORM
+========================================================= */
 
 .grid {
+
     display: grid;
-    gap: 13px 16px;
+
+    gap: 13px 15px;
+
 }
+
 
 .grid.two {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
 }
+
 
 .grid label {
+
+    display: block;
+
     font-size: 12px;
-    font-weight: 700;
+
+    font-weight: 800;
+
     color: #263247;
-    min-width: 0;
+
 }
 
-.grid label.full {
-    grid-column: 1 / -1;
-}
 
 .optional {
+
+    color: #9ca5b2;
+
     font-weight: 500;
-    color: #9aa3b2;
+
 }
+
 
 .grid input,
 .grid select {
+
+    display: block;
+
     width: 100%;
+
     height: 42px;
 
-    border: 1px solid #d5dce6;
-    border-radius: 6px;
-
     margin-top: 6px;
-    padding: 0 11px;
 
-    background: #fff;
+    padding:
+        0 11px;
+
+    border:
+        1px solid #d4dce7;
+
+    border-radius: 7px;
+
+    background: #ffffff;
+
     color: #263247;
+
+    font-size: 14px;
 
     outline: none;
 
-    min-width: 0;
 }
+
 
 .grid input:focus,
 .grid select:focus {
-    border-color: #4a8de8;
-    box-shadow: 0 0 0 3px #1764d512;
+
+    border-color: #4287df;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(23,100,213,.08);
+
 }
 
 
 /* =========================================================
-   ACTIONS
-   ========================================================= */
+   ACTION BUTTONS
+========================================================= */
 
 .actions {
+
     display: flex;
+
     gap: 10px;
-    margin-top: 22px;
+
+    margin-top: 24px;
+
 }
 
-.actions .primary {
-    flex: 1;
+
+.primary,
+.secondary,
+.outline {
+
+    border-radius: 8px;
+
+    padding:
+        11px 15px;
+
+    font-weight: 800;
+
+    cursor: pointer;
+
+    font-size: 13px;
+
 }
+
+
+.primary {
+
+    background: #1764d5;
+
+    color: #ffffff;
+
+    border:
+        1px solid #1764d5;
+
+}
+
 
 .secondary,
 .outline {
-    background: #fff;
-    border: 1px solid #bfcbdc;
-    color: #2b5d9f;
+
+    background: #ffffff;
+
+    color: #245b8f;
+
+    border:
+        1px solid #bdcadb;
+
 }
 
-.secondary:hover,
-.outline:hover {
-    background: #f4f8fd;
+
+.actions .primary {
+
+    flex: 1;
+
 }
 
 
 /* =========================================================
-   PREVIEW
-   ========================================================= */
-
-.preview-card {
-    padding: 18px;
-    min-width: 0;
-}
+   PREVIEW HEADER
+========================================================= */
 
 .preview-head {
+
     display: flex;
-    align-items: center;
+
     justify-content: space-between;
-    gap: 12px;
+
+    align-items: center;
+
+    gap: 15px;
+
 }
+
 
 .preview-head h2 {
+
     margin: 0;
-    font-size: 17px;
+
+    color: #15294c;
+
+    font-size: 18px;
+
 }
 
-.preview-head > div {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
+
+.preview-head p {
+
+    margin: 4px 0 0;
+
+    color: #7b879a;
+
+    font-size: 11px;
+
 }
+
+
+.preview-actions {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 7px;
+
+}
+
 
 .small {
-    padding: 10px 13px;
+
+    padding:
+        9px 13px;
+
 }
 
 
 /* =========================================================
    TEMPLATE STRIP
-   ========================================================= */
+========================================================= */
 
 .template-strip {
+
     display: flex;
+
     gap: 8px;
-    margin: 14px 0;
+
+    margin:
+        15px 0;
 
     overflow-x: auto;
-    overflow-y: hidden;
 
-    padding-bottom: 3px;
+    padding-bottom: 4px;
 
     scrollbar-width: thin;
+
 }
+
 
 .template {
-    flex: 0 0 auto;
 
-    border: 1px solid #d9e1ec;
-    background: #fff;
-    border-radius: 7px;
-
-    padding: 8px 13px;
+    flex:
+        0 0 auto;
 
     display: flex;
-    gap: 7px;
+
     align-items: center;
 
-    cursor: pointer;
+    gap: 6px;
+
+    padding:
+        8px 11px;
+
+    border:
+        1px solid #d9e1ec;
+
+    background: #ffffff;
+
     color: #58677f;
 
-    white-space: nowrap;
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-size: 12px;
+
 }
 
-.template b {
-    font-size: 12px;
-}
 
 .template.active {
+
     border-color: #1764d5;
+
     color: #1764d5;
+
     background: #f3f8ff;
+
 }
 
 
 /* =========================================================
-   A4 WRAPPER
-   ========================================================= */
+   A4 VIEWER
+========================================================= */
 
-.a4-wrap {
+.a4-viewer {
+
+    width: 100%;
+
     background: #edf1f6;
 
-    padding: 20px;
+    border-radius: 10px;
 
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-
-    overflow: auto;
-
-    border-radius: 4px;
-}
-
-
-/* =========================================================
-   A4 DOCUMENT
-   ========================================================= */
-
-.a4 {
-    width: 210mm !important;
-    height: 297mm !important;
-
-    min-width: 210mm;
-    min-height: 297mm;
-
-    max-width: 210mm;
-    max-height: 297mm;
-
-    flex: 0 0 210mm;
-
-    background: #fff;
-
-    position: relative;
-
-    box-shadow: 0 5px 22px #14223b1c;
-
-    padding: 74px 68px 65px;
-
-    text-align: center;
-    color: #111;
+    padding:
+        clamp(8px, 2vw, 20px);
 
     overflow: hidden;
 
-    font-family: Georgia, "Times New Roman", serif;
+    display: flex;
+
+    justify-content: center;
+
 }
+
+
+/*
+    IMPORTANT:
+
+    The actual A4 remains 794 × 1123 px.
+
+    We scale it visually for mobile.
+
+    This prevents the A4 document from breaking.
+*/
+
+
+.a4-scale-box {
+
+    width: 100%;
+
+    max-width: 794px;
+
+    aspect-ratio:
+        210 / 297;
+
+    position: relative;
+
+    overflow: hidden;
+
+}
+
+
+.a4 {
+
+    position: absolute;
+
+    top: 0;
+
+    left: 50%;
+
+    width: 794px;
+
+    height: 1123px;
+
+    transform:
+        translateX(-50%)
+        scale(var(--a4-scale, 1));
+
+    transform-origin:
+        top center;
+
+    background: #ffffff;
+
+    color: #111111;
+
+    overflow: hidden;
+
+    padding:
+        70px 65px 60px;
+
+    text-align: center;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    box-shadow:
+        0 5px 25px rgba(0,0,0,.13);
+
+}
+
+
+/* =========================================================
+   A4 LOGO
+========================================================= */
 
 .a4-logo img {
-    width: 92px;
-    height: 92px;
+
+    width: 90px;
+
+    height: 90px;
+
     object-fit: contain;
+
 }
+
+
+/* =========================================================
+   COLLEGE HEADING
+========================================================= */
 
 .a4 h3 {
-    font-size: 28px;
+
+    margin:
+        13px 0 4px;
+
+    font-size: 27px;
+
     line-height: 1.15;
 
-    margin: 14px 0 3px;
-
     font-weight: 800;
+
 }
+
 
 .a4 .sub {
-    font-size: 14px;
+
     margin: 0;
+
+    font-size: 14px;
+
 }
 
+
 .a4 .addr {
+
+    margin:
+        7px 0 17px;
+
     font-size: 12px;
-    margin: 7px 0 18px;
+
+}
+
+
+/* =========================================================
+   RECORD BOOK HEADING
+========================================================= */
+
+.record-heading {
+
+    display: none;
+
+    font-size: 19px;
+
+    font-weight: 700;
+
+    margin-bottom: 16px;
+
+}
+
+
+.record-center-logo {
+
+    display: none;
+
+    margin:
+        25px auto 30px;
+
+}
+
+
+.record-center-logo img {
+
+    width: 125px;
+
+    height: 125px;
+
+    object-fit: contain;
+
 }
 
 
 /* =========================================================
    RULE
-   ========================================================= */
+========================================================= */
 
 .rule {
+
     height: 1px;
 
     background: #1d355e;
 
-    margin: 0 auto 34px;
+    margin:
+        0 auto 28px;
 
     position: relative;
+
 }
 
-.rule:after {
+
+.rule::after {
+
     content: "◆";
 
     position: absolute;
+
+    top: -9px;
+
     left: 50%;
-    top: -10px;
 
-    transform: translateX(-50%);
+    transform:
+        translateX(-50%);
 
-    background: #fff;
+    padding:
+        0 8px;
 
-    padding: 0 9px;
+    background: #ffffff;
 
     color: #1d355e;
+
 }
 
 
 /* =========================================================
    DOCUMENT TYPE
-   ========================================================= */
+========================================================= */
 
 .doc-type {
-    font-weight: 800;
+
     font-size: 22px;
+
+    font-weight: 800;
 
     letter-spacing: 1px;
 
-    margin-bottom: 22px;
+    margin-bottom: 17px;
+
 }
 
 
 /* =========================================================
    COURSE
-   ========================================================= */
+========================================================= */
 
 .course {
-    font-size: 16px;
-    line-height: 1.75;
 
-    margin-bottom: 24px;
+    font-size: 15px;
+
+    line-height: 1.7;
+
+    margin-bottom: 23px;
+
 }
+
 
 .course span {
+
     font-weight: 600;
-}
 
-
-/* =========================================================
-   TITLE
-   ========================================================= */
-
-.title {
-    font-size: 22px;
-    font-weight: 800;
-
-    min-height: 60px;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    text-transform: uppercase;
-
-    margin-bottom: 30px;
 }
 
 
 /* =========================================================
    TWO COLUMN INFORMATION
-   ========================================================= */
+========================================================= */
 
 .two-cols {
+
     display: grid;
 
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns:
+        1fr 1fr;
 
-    gap: 55px;
+    gap: 48px;
 
     text-align: left;
 
     font-size: 13px;
 
     line-height: 1.5;
+
 }
 
+
 .two-cols > div {
+
     display: flex;
+
     flex-direction: column;
 
     min-width: 0;
+
 }
+
 
 .two-cols b {
+
     font-size: 14px;
+
     margin-bottom: 5px;
+
 }
+
 
 .two-cols strong {
+
     font-size: 15px;
+
 }
 
+
 .two-cols span {
+
     min-height: 19px;
+
+}
+
+
+.college-line {
+
+    margin-top: 3px;
+
 }
 
 
 /* =========================================================
    FACULTY
-   ========================================================= */
+========================================================= */
 
 .faculty-entry {
-    min-height: 78px;
+
+    min-height: 90px;
 
     display: flex;
+
     flex-direction: column;
 
-    justify-content: flex-start;
 }
+
 
 .faculty-entry + .faculty-entry {
-    margin-top: 18px;
-    padding-top: 18px;
 
-    border-top: 1px solid #d9dee7;
+    margin-top: 15px;
+
+    padding-top: 15px;
+
+    border-top:
+        1px solid #d9dee7;
+
 }
 
-.faculty-entry strong {
-    font-size: 15px;
-    line-height: 1.35;
+
+/* =========================================================
+   RECORD BOOK TEMPLATE
+========================================================= */
+
+.a4.record {
+
+    padding:
+        55px 70px 55px;
+
 }
 
-.faculty-entry span {
-    min-height: 19px;
+
+.a4.record .record-heading {
+
+    display: block;
+
 }
 
-.faculty2-block[hidden] {
-    display: none !important;
+
+.a4.record .rule {
+
+    display: none;
+
+}
+
+
+.a4.record .doc-type {
+
+    display: none;
+
+}
+
+
+.a4.record .record-center-logo {
+
+    display: block;
+
+}
+
+
+.a4.record .course {
+
+    font-size: 16px;
+
+    margin-bottom: 0;
+
+}
+
+
+.a4.record h3 {
+
+    font-size: 29px;
+
+    margin-top: 10px;
+
+}
+
+
+.a4.record .two-cols {
+
+    grid-template-columns: 1fr;
+
+    text-align: center;
+
+    gap: 25px;
+
+    margin-top: 20px;
+
+}
+
+
+.a4.record .two-cols > div {
+
+    align-items: center;
+
+}
+
+
+.a4.record .faculty-entry {
+
+    min-height: auto;
+
+    align-items: center;
+
+}
+
+
+.a4.record .faculty-entry + .faculty-entry {
+
+    margin-top: 15px;
+
+}
+
+
+.a4.record .student-column {
+
+    align-items: center;
+
+}
+
+
+.a4.record .student-column strong {
+
+    font-size: 16px;
+
+}
+
+
+.a4.record .student-column span {
+
+    font-size: 14px;
+
+}
+
+
+.record-details {
+
+    display: none;
+
 }
 
 
 /* =========================================================
    BOTTOM
-   ========================================================= */
+========================================================= */
 
 .bottom {
+
     position: absolute;
 
-    bottom: 36px;
+    left: 65px;
 
-    left: 68px;
-    right: 68px;
+    right: 65px;
+
+    bottom: 32px;
 
     display: flex;
 
     justify-content: space-between;
 
     font-size: 12px;
+
 }
 
-.hint {
-    text-align: center;
 
-    color: #7a8597;
+.a4.record .bottom {
 
-    font-size: 11px;
+    justify-content: center;
 
-    margin: 8px 0 0;
+    gap: 50px;
+
 }
 
 
 /* =========================================================
-   BORDER TEMPLATE
-   ========================================================= */
+   DOUBLE BORDER
+========================================================= */
 
 .a4.border {
-    border: 8px double #19365f;
 
-    padding: 66px 60px 60px;
+    border:
+        8px double #19365f;
+
+    padding:
+        62px 58px 55px;
+
 }
 
-.a4.border:before {
+
+.a4.border::before {
+
     content: "";
 
     position: absolute;
 
     inset: 13px;
 
-    border: 1px solid #19365f;
+    border:
+        1px solid #19365f;
 
     pointer-events: none;
-}
 
-.a4.border .rule {
-    background: #19365f;
 }
 
 
 /* =========================================================
-   MINIMAL TEMPLATE
-   ========================================================= */
+   MINIMAL
+========================================================= */
 
 .a4.minimal {
+
     font-family: Arial, sans-serif;
 
     text-align: left;
 
-    padding: 90px 78px;
+    padding:
+        85px 75px 60px;
+
 }
+
 
 .a4.minimal .a4-logo {
+
     text-align: left;
+
 }
+
 
 .a4.minimal h3 {
-    font-size: 24px;
 
     text-align: left;
+
+    font-size: 25px;
+
 }
+
 
 .a4.minimal .rule {
-    margin: 28px 0;
 
-    width: 100%;
+    margin:
+        28px 0;
 
     background: #111;
+
 }
+
 
 .a4.minimal .doc-type {
-    font-size: 30px;
 
-    margin-top: 60px;
+    font-size: 29px;
+
+    margin-top: 40px;
+
 }
+
 
 .a4.minimal .course {
+
     text-align: left;
+
 }
 
-.a4.minimal .title {
-    justify-content: center;
-
-    font-size: 27px;
-
-    border-left: 0;
-
-    padding-left: 0;
-
-    text-align: center;
-}
 
 .a4.minimal .two-cols {
-    grid-template-columns: 1fr 1fr;
 
-    text-align: left;
+    grid-template-columns: 1fr;
 
-    gap: 55px;
-}
+    gap: 25px;
 
-.a4.minimal .bottom {
-    left: 78px;
-    right: 78px;
 }
 
 
 /* =========================================================
-   LAB TEMPLATE
-   ========================================================= */
+   LAB
+========================================================= */
 
 .a4.lab {
+
     font-family: Arial, sans-serif;
 
-    border: 2px solid #d3d7de;
+    border:
+        2px solid #cdd4df;
 
-    padding: 70px 58px;
+    padding:
+        65px 58px;
+
 }
+
 
 .a4.lab .doc-type {
+
     font-size: 28px;
+
 }
 
-.a4.lab .title {
-    font-size: 23px;
-
-    border-top: 0;
-    border-bottom: 0;
-
-    padding: 22px 0;
-
-    margin-bottom: 40px;
-
-    justify-content: center;
-
-    text-align: center;
-}
 
 .a4.lab .two-cols {
-    grid-template-columns: 1fr 1fr;
 
-    text-align: left;
+    gap: 35px;
 
-    gap: 55px;
-}
-
-.a4.lab .two-cols > div {
-    align-items: stretch;
-}
-
-.a4.lab .bottom {
-    justify-content: center;
 }
 
 
 /* =========================================================
-   INFO / ABOUT
-   ========================================================= */
+   HINT
+========================================================= */
 
-.info {
-    max-width: 1100px;
-
-    margin: 0 auto 30px;
-
-    padding: 25px;
+.hint {
 
     text-align: center;
+
+    color: #7b8798;
+
+    font-size: 11px;
+
+    margin:
+        8px 0 0;
+
 }
+
+
+/* =========================================================
+   ABOUT
+========================================================= */
+
+.info {
+
+    max-width: 1100px;
+
+    margin:
+        0 auto 35px;
+
+    padding:
+        25px;
+
+    text-align: center;
+
+}
+
 
 .info h2 {
-    margin: 0 0 8px;
+
+    margin:
+        0 0 8px;
+
+    color: #123b68;
+
 }
+
 
 .info p {
+
     color: #637087;
+
 }
 
-.about-section[hidden] {
-    display: none !important;
-}
 
 .developers {
-    max-width: 900px;
-
-    margin: 22px auto 0;
 
     display: grid;
 
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
 
     gap: 18px;
+
+    max-width: 900px;
+
+    margin:
+        25px auto 0;
+
 }
 
+
 .developer-card {
-    background: #fff;
 
-    border: 1px solid #dbe5f2;
+    background: #ffffff;
 
-    border-radius: 16px;
+    border:
+        1px solid #dbe5f2;
+
+    border-radius: 14px;
 
     padding: 22px;
 
     text-align: left;
 
-    box-shadow: 0 8px 24px rgba(16, 42, 67, .06);
 }
+
 
 .developer-card h3 {
-    margin: 0 0 8px;
+
+    margin:
+        0 0 8px;
 
     color: #123b68;
+
 }
 
+
 .developer-card p {
-    margin: 0 0 10px;
 
     line-height: 1.55;
 
-    color: #52657a;
-}
-
-.developer-card span {
-    color: #245b8f;
-
-    font-weight: 700;
 }
 
 
 /* =========================================================
    FOOTER
-   ========================================================= */
+========================================================= */
 
 footer {
+
     background: #092c68;
 
-    color: #fff;
+    color: #ffffff;
 
-    padding: 22px 7%;
+    padding:
+        22px 7%;
 
     display: flex;
 
     justify-content: space-between;
 
-    gap: 18px;
+    gap: 15px;
 
     flex-wrap: wrap;
 
     font-size: 12px;
+
 }
 
 
 /* =========================================================
    TOAST
-   ========================================================= */
+========================================================= */
 
 .toast {
+
     position: fixed;
 
     bottom: 20px;
-    right: 20px;
 
-    max-width: calc(100vw - 40px);
+    left: 50%;
+
+    transform:
+        translate(-50%, 20px);
 
     background: #12284d;
 
-    color: #fff;
+    color: #ffffff;
 
-    padding: 12px 16px;
+    padding:
+        11px 16px;
 
-    border-radius: 7px;
+    border-radius: 8px;
 
     opacity: 0;
 
-    transform: translateY(10px);
-
     transition: .25s;
+
+    z-index: 1000;
 
     pointer-events: none;
 
-    z-index: 1000;
+    font-size: 13px;
+
+    max-width: 90vw;
+
+    text-align: center;
+
 }
 
+
 .toast.show {
+
     opacity: 1;
 
-    transform: none;
+    transform:
+        translate(-50%, 0);
+
 }
 
 
 /* =========================================================
    TABLET
-   ========================================================= */
+========================================================= */
 
-@media (max-width: 1100px) {
-
-    .topbar {
-        padding: 12px 18px;
-    }
-
-    .topbar nav {
-        gap: 12px;
-    }
+@media (max-width: 1050px) {
 
     .workspace {
+
         grid-template-columns: 1fr;
+
     }
 
     .preview-card {
+
         order: -1;
+
     }
 
-    .a4-wrap {
-        min-height: 600px;
-    }
 }
 
 
 /* =========================================================
    MOBILE
-   ========================================================= */
+========================================================= */
 
 @media (max-width: 700px) {
 
-    body {
-        width: 100%;
-        overflow-x: hidden;
-    }
-
-    /* ---------- TOP BAR ---------- */
-
     .topbar {
-        min-height: auto;
 
-        padding: 10px 12px;
+        position: relative;
 
-        align-items: center;
-
-        position: sticky;
-    }
-
-    .brand {
-        gap: 9px;
-    }
-
-    .brand img {
-        width: 43px;
-        height: 43px;
-    }
-
-    .brand h1 {
-        font-size: 15px;
-
-        line-height: 1.2;
-
-        margin-bottom: 2px;
-    }
-
-    .brand p {
-        font-size: 10px;
-
-        line-height: 1.2;
-    }
-
-    .topbar nav {
-        gap: 6px;
-    }
-
-    .topbar nav a {
-        display: none;
-    }
-
-    .topbar button {
-        font-size: 11px;
-
-        padding: 9px 10px;
-
-        min-height: 36px;
-    }
-
-
-    /* ---------- HERO ---------- */
-
-    .hero {
-        padding: 16px 12px;
-
-        font-size: 13px;
-    }
-
-    .hero p {
-        font-size: 12px;
-
-        margin-top: 6px;
-    }
-
-
-    /* ---------- WORKSPACE ---------- */
-
-    .workspace {
-        display: flex;
-
-        flex-direction: column;
-
-        width: 100%;
-
-        margin: 10px auto 20px;
-
-        padding: 0 8px;
-
-        gap: 12px;
-    }
-
-
-    /* ---------- PREVIEW ---------- */
-
-    .preview-card {
-        order: -1;
-
-        width: 100%;
-
-        padding: 10px;
-
-        border-radius: 8px;
-    }
-
-    .preview-head {
         flex-direction: column;
 
         align-items: stretch;
 
-        gap: 9px;
-    }
+        padding:
+            12px;
 
-    .preview-head h2 {
-        font-size: 16px;
-    }
-
-    .preview-head > div {
-        display: grid;
-
-        grid-template-columns: repeat(3, 1fr);
-
-        gap: 6px;
-
-        width: 100%;
-    }
-
-    .preview-head button {
-        width: 100%;
-
-        padding: 9px 5px;
-
-        font-size: 11px;
     }
 
 
-    /* ---------- TEMPLATE BUTTONS ---------- */
+    .brand {
 
-    .template-strip {
-        margin: 10px 0;
+        justify-content: center;
 
-        gap: 6px;
-
-        overflow-x: auto;
-    }
-
-    .template {
-        padding: 8px 10px;
-
-        font-size: 11px;
     }
 
 
-    /* ---------- A4 PREVIEW ---------- */
+    .main-nav {
 
-    .a4-wrap {
-        width: 100%;
+        justify-content: center;
 
-        padding: 10px;
+        flex-wrap: wrap;
 
-        justify-content: flex-start;
-
-        overflow-x: auto;
-
-        overflow-y: hidden;
-
-        -webkit-overflow-scrolling: touch;
-    }
-
-    /*
-       IMPORTANT:
-       No transform scaling here.
-       The complete A4 page remains at its real ratio.
-       User can horizontally scroll the preview.
-    */
-
-    .a4 {
-        flex: 0 0 210mm;
-
-        width: 210mm !important;
-        height: 297mm !important;
-
-        min-width: 210mm;
-
-        transform: none !important;
-
-        margin: 0 auto;
     }
 
 
-    /* ---------- FORM ---------- */
+    .nav-link {
 
-    .form-card {
-        width: 100%;
+        display: none;
 
-        padding: 15px;
-
-        border-radius: 8px;
     }
 
-    .steps {
-        margin-bottom: 17px;
+
+    .workspace {
+
+        margin-top: 12px;
+
+        padding:
+            0 8px;
+
+        gap: 12px;
+
     }
 
-    .step {
-        font-size: 10px;
-    }
-
-    .step span {
-        width: 30px;
-        height: 30px;
-
-        font-size: 13px;
-    }
-
-    .steps i {
-        width: 35px;
-
-        margin: 0 5px;
-    }
-
-    .section-title {
-        padding: 15px 0 10px;
-
-        font-size: 13px;
-    }
 
     .grid.two {
+
         grid-template-columns: 1fr;
 
-        gap: 12px;
     }
 
-    .grid label {
-        font-size: 12px;
+
+    .preview-head {
+
+        flex-direction: column;
+
+        align-items: stretch;
+
     }
 
-    .grid input,
-    .grid select {
-        height: 44px;
 
-        font-size: 14px;
+    .preview-actions {
+
+        width: 100%;
+
     }
+
+
+    .preview-actions button {
+
+        flex: 1;
+
+    }
+
+
+    .a4-viewer {
+
+        padding: 6px;
+
+    }
+
 
     .actions {
-        display: grid;
 
-        grid-template-columns: 90px 1fr;
+        flex-direction: column;
 
-        gap: 8px;
-
-        position: sticky;
-
-        bottom: 8px;
-
-        z-index: 50;
-
-        background: rgba(255, 255, 255, .96);
-
-        padding: 8px;
-
-        margin-left: -8px;
-
-        margin-right: -8px;
-
-        border-top: 1px solid #e1e6ee;
     }
+
 
     .actions button {
-        min-height: 44px;
 
-        font-size: 12px;
+        width: 100%;
+
     }
 
-
-    /* ---------- ABOUT ---------- */
-
-    .info {
-        padding: 18px 12px;
-
-        margin-bottom: 20px;
-    }
-
-    .info h2 {
-        font-size: 21px;
-    }
-
-    .info p {
-        font-size: 13px;
-
-        line-height: 1.5;
-    }
 
     .developers {
+
         grid-template-columns: 1fr;
 
-        gap: 12px;
     }
 
-    .developer-card {
-        padding: 17px;
-
-        border-radius: 12px;
-    }
-
-
-    /* ---------- FOOTER ---------- */
 
     footer {
-        padding: 18px 15px;
 
         flex-direction: column;
 
         text-align: center;
 
-        align-items: center;
-
-        gap: 8px;
     }
 
-
-    /* ---------- TOAST ---------- */
-
-    .toast {
-        left: 12px;
-
-        right: 12px;
-
-        bottom: 12px;
-
-        max-width: none;
-
-        text-align: center;
-    }
 }
 
 
 /* =========================================================
-   VERY SMALL PHONES
-   ========================================================= */
+   VERY SMALL PHONE
+========================================================= */
 
 @media (max-width: 380px) {
 
-    .brand p {
+    .brand-logo {
+
+        width: 42px;
+
+        height: 42px;
+
+    }
+
+
+    .brand-text h1 {
+
+        font-size: 15px;
+
+    }
+
+
+    .brand-text p {
+
         display: none;
+
     }
 
-    .brand h1 {
-        font-size: 14px;
+
+    .template {
+
+        padding:
+            7px 9px;
+
     }
 
-    .brand img {
-        width: 39px;
-        height: 39px;
+
+    .preview-actions {
+
+        display: grid;
+
+        grid-template-columns:
+            1fr 1fr;
+
     }
 
-    .preview-head > div {
-        grid-template-columns: 1fr;
+
+    .preview-actions button:first-child {
+
+        grid-column:
+            1 / -1;
+
     }
 
-    .steps i {
-        width: 20px;
-
-        margin: 0 3px;
-    }
-
-    .step small {
-        font-size: 9px;
-    }
-
-    .actions {
-        grid-template-columns: 80px 1fr;
-    }
 }
 
 
 /* =========================================================
    PRINT
-   ========================================================= */
+========================================================= */
 
 @media print {
 
     html,
     body {
+
         width: 210mm;
 
         min-height: 297mm;
 
-        background: #fff !important;
-
         margin: 0 !important;
 
         padding: 0 !important;
+
+        background: #ffffff !important;
+
     }
+
+
+    body {
+
+        overflow: visible !important;
+
+    }
+
 
     .topbar,
     .hero,
@@ -1374,35 +1750,50 @@ footer {
     .template-strip,
     .hint,
     .info,
-    footer {
+    footer,
+    .toast {
+
         display: none !important;
+
     }
 
+
     .workspace {
+
+        display: block !important;
+
         width: 210mm !important;
 
         max-width: none !important;
 
-        display: block !important;
-
         margin: 0 !important;
 
         padding: 0 !important;
+
     }
 
+
     .preview-card {
+
+        display: block !important;
+
         width: 210mm !important;
 
-        margin: 0 !important;
-
         padding: 0 !important;
+
+        margin: 0 !important;
 
         border: 0 !important;
 
         box-shadow: none !important;
+
     }
 
-    .a4-wrap {
+
+    .a4-viewer {
+
+        display: block !important;
+
         width: 210mm !important;
 
         height: 297mm !important;
@@ -1411,12 +1802,28 @@ footer {
 
         margin: 0 !important;
 
+        background: #ffffff !important;
+
         overflow: hidden !important;
 
-        background: #fff !important;
     }
 
+
+    .a4-scale-box {
+
+        width: 210mm !important;
+
+        height: 297mm !important;
+
+        max-width: none !important;
+
+        aspect-ratio: auto !important;
+
+    }
+
+
     .a4 {
+
         width: 210mm !important;
 
         height: 297mm !important;
@@ -1429,32 +1836,36 @@ footer {
 
         max-height: 297mm !important;
 
-        margin: 0 !important;
+        left: 0 !important;
+
+        top: 0 !important;
 
         transform: none !important;
 
         box-shadow: none !important;
 
+        margin: 0 !important;
+
         overflow: hidden !important;
 
-        page-break-after: avoid !important;
     }
 
-    .a4.border {
-        padding: 17mm 15mm 15mm;
-    }
-
-    .a4.minimal {
-        padding: 23mm 20mm;
-    }
-
-    .a4.lab {
-        padding: 18mm 15mm;
-    }
 
     @page {
+
         size: A4 portrait;
 
         margin: 0;
+
     }
+
+}
+/* =========================================================
+   RECORD BOOK ONLY
+   Hide ONLY the top logo of Record Book
+   Keep middle logo
+   ========================================================= */
+
+.a4.record .record-book-top-logo {
+    display: none !important;
 }

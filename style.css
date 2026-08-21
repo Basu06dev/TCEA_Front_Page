@@ -6,11 +6,30 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     margin: 0;
-    font-family: Inter, Segoe UI, Arial, sans-serif;
+    font-family: Inter, "Segoe UI", Arial, sans-serif;
     background: #f5f8fc;
     color: #16223b;
+    overflow-x: hidden;
+}
+
+button,
+input,
+select {
+    font: inherit;
+}
+
+button {
+    -webkit-tap-highlight-color: transparent;
+}
+
+img {
+    max-width: 100%;
 }
 
 
@@ -19,28 +38,33 @@ body {
    ========================================================= */
 
 .topbar {
-    height: 88px;
+    min-height: 88px;
     background: #fff;
     border-bottom: 1px solid #dbe5f2;
+
     display: flex;
     align-items: center;
     justify-content: space-between;
+
     padding: 12px 28px;
+
     position: sticky;
     top: 0;
-    z-index: 10;
+    z-index: 100;
 }
 
 .brand {
     display: flex;
     align-items: center;
     gap: 14px;
+    min-width: 0;
 }
 
 .brand img {
     width: 58px;
     height: 58px;
     object-fit: contain;
+    flex-shrink: 0;
 }
 
 .brand h1 {
@@ -66,6 +90,7 @@ body {
     text-decoration: none;
     font-weight: 600;
     font-size: 14px;
+    white-space: nowrap;
 }
 
 .topbar nav a.active {
@@ -79,16 +104,21 @@ body {
 .outline,
 .secondary {
     border: 0;
-    border-radius: 6px;
+    border-radius: 7px;
     padding: 11px 16px;
     font-weight: 700;
     cursor: pointer;
+    min-height: 40px;
 }
 
 .topbar button,
 .primary {
     background: #1764d5;
     color: #fff;
+}
+
+.primary:hover {
+    background: #1257be;
 }
 
 
@@ -115,11 +145,13 @@ body {
    ========================================================= */
 
 .workspace {
+    width: 100%;
     max-width: 1420px;
     margin: 18px auto 30px;
     padding: 0 18px;
+
     display: grid;
-    grid-template-columns: 1fr 1.18fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.18fr);
     gap: 24px;
 }
 
@@ -134,6 +166,7 @@ body {
     border: 1px solid #dce3ec;
     border-radius: 8px;
     box-shadow: 0 2px 8px #122a5a0b;
+    min-width: 0;
 }
 
 .form-card {
@@ -157,18 +190,24 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 5px;
+
     color: #7a8497;
     font-size: 12px;
     font-weight: 700;
+
+    white-space: nowrap;
 }
 
 .step span {
     width: 34px;
     height: 34px;
+
     border: 1px solid #cbd3df;
     border-radius: 50%;
+
     display: grid;
     place-items: center;
+
     background: #fff;
     font-size: 15px;
 }
@@ -198,7 +237,9 @@ body {
 .section-title {
     font-weight: 800;
     color: #1b376c;
+
     border-top: 1px solid #e6ebf2;
+
     padding: 18px 0 12px;
     margin-top: 4px;
 }
@@ -214,13 +255,14 @@ body {
 }
 
 .grid.two {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .grid label {
     font-size: 12px;
     font-weight: 700;
     color: #263247;
+    min-width: 0;
 }
 
 .grid label.full {
@@ -235,14 +277,20 @@ body {
 .grid input,
 .grid select {
     width: 100%;
-    height: 40px;
+    height: 42px;
+
     border: 1px solid #d5dce6;
     border-radius: 6px;
+
     margin-top: 6px;
     padding: 0 11px;
+
     background: #fff;
     color: #263247;
+
     outline: none;
+
+    min-width: 0;
 }
 
 .grid input:focus,
@@ -271,6 +319,11 @@ body {
     background: #fff;
     border: 1px solid #bfcbdc;
     color: #2b5d9f;
+}
+
+.secondary:hover,
+.outline:hover {
+    background: #f4f8fd;
 }
 
 
@@ -314,19 +367,32 @@ body {
     display: flex;
     gap: 8px;
     margin: 14px 0;
-    overflow: auto;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    padding-bottom: 3px;
+
+    scrollbar-width: thin;
 }
 
 .template {
+    flex: 0 0 auto;
+
     border: 1px solid #d9e1ec;
     background: #fff;
     border-radius: 7px;
+
     padding: 8px 13px;
+
     display: flex;
     gap: 7px;
     align-items: center;
+
     cursor: pointer;
     color: #58677f;
+
+    white-space: nowrap;
 }
 
 .template b {
@@ -346,10 +412,16 @@ body {
 
 .a4-wrap {
     background: #edf1f6;
+
     padding: 20px;
+
     display: flex;
     justify-content: center;
+    align-items: flex-start;
+
     overflow: auto;
+
+    border-radius: 4px;
 }
 
 
@@ -358,16 +430,31 @@ body {
    ========================================================= */
 
 .a4 {
-    width: 794px;
-    height: 1123px;
+    width: 210mm !important;
+    height: 297mm !important;
+
+    min-width: 210mm;
+    min-height: 297mm;
+
+    max-width: 210mm;
+    max-height: 297mm;
+
+    flex: 0 0 210mm;
+
     background: #fff;
+
     position: relative;
+
     box-shadow: 0 5px 22px #14223b1c;
+
     padding: 74px 68px 65px;
+
     text-align: center;
     color: #111;
+
     overflow: hidden;
-    font-family: Georgia, 'Times New Roman', serif;
+
+    font-family: Georgia, "Times New Roman", serif;
 }
 
 .a4-logo img {
@@ -379,7 +466,9 @@ body {
 .a4 h3 {
     font-size: 28px;
     line-height: 1.15;
+
     margin: 14px 0 3px;
+
     font-weight: 800;
 }
 
@@ -400,19 +489,27 @@ body {
 
 .rule {
     height: 1px;
+
     background: #1d355e;
+
     margin: 0 auto 34px;
+
     position: relative;
 }
 
 .rule:after {
-    content: '◆';
+    content: "◆";
+
     position: absolute;
     left: 50%;
     top: -10px;
+
     transform: translateX(-50%);
+
     background: #fff;
+
     padding: 0 9px;
+
     color: #1d355e;
 }
 
@@ -424,7 +521,9 @@ body {
 .doc-type {
     font-weight: 800;
     font-size: 22px;
+
     letter-spacing: 1px;
+
     margin-bottom: 22px;
 }
 
@@ -436,6 +535,7 @@ body {
 .course {
     font-size: 16px;
     line-height: 1.75;
+
     margin-bottom: 24px;
 }
 
@@ -451,11 +551,15 @@ body {
 .title {
     font-size: 22px;
     font-weight: 800;
+
     min-height: 60px;
+
     display: flex;
     justify-content: center;
     align-items: center;
+
     text-transform: uppercase;
+
     margin-bottom: 30px;
 }
 
@@ -466,16 +570,23 @@ body {
 
 .two-cols {
     display: grid;
+
     grid-template-columns: 1fr 1fr;
+
     gap: 55px;
+
     text-align: left;
+
     font-size: 13px;
+
     line-height: 1.5;
 }
 
 .two-cols > div {
     display: flex;
     flex-direction: column;
+
+    min-width: 0;
 }
 
 .two-cols b {
@@ -493,440 +604,22 @@ body {
 
 
 /* =========================================================
-   BOTTOM
+   FACULTY
    ========================================================= */
-
-.bottom {
-    position: absolute;
-    bottom: 36px;
-    left: 68px;
-    right: 68px;
-    display: flex;
-    justify-content: space-between;
-    font-size: 12px;
-}
-
-.hint {
-    text-align: center;
-    color: #7a8597;
-    font-size: 11px;
-    margin: 8px 0 0;
-}
-
-
-/* =========================================================
-   BORDER TEMPLATE
-   ========================================================= */
-
-.a4.border {
-    border: 8px double #19365f;
-    padding: 66px 60px 60px;
-}
-
-.a4.border:before {
-    content: '';
-    position: absolute;
-    inset: 13px;
-    border: 1px solid #19365f;
-    pointer-events: none;
-}
-
-.a4.border .rule {
-    background: #19365f;
-}
-
-
-/* =========================================================
-   MINIMAL TEMPLATE
-   ========================================================= */
-
-.a4.minimal {
-    font-family: Arial, sans-serif;
-    text-align: left;
-    padding: 90px 78px;
-}
-
-.a4.minimal .a4-logo {
-    text-align: left;
-}
-
-.a4.minimal h3 {
-    font-size: 24px;
-    text-align: left;
-}
-
-.a4.minimal .rule {
-    margin: 28px 0;
-    width: 100%;
-    background: #111;
-}
-
-.a4.minimal .doc-type {
-    font-size: 30px;
-    margin-top: 60px;
-}
-
-.a4.minimal .course {
-    text-align: left;
-}
-
-.a4.minimal .title {
-    justify-content: flex-start;
-    font-size: 27px;
-    border-left: 5px solid #1764d5;
-    padding-left: 15px;
-    text-align: left;
-}
-
-.a4.minimal .two-cols {
-    grid-template-columns: 1fr;
-    text-align: left;
-    gap: 18px;
-}
-
-.a4.minimal .bottom {
-    left: 78px;
-    right: 78px;
-}
-
-
-/* =========================================================
-   LAB TEMPLATE
-   ========================================================= */
-
-.a4.lab {
-    font-family: Arial, sans-serif;
-    border: 2px solid #d3d7de;
-    padding: 70px 58px;
-}
-
-.a4.lab .doc-type {
-    font-size: 28px;
-}
-
-.a4.lab .title {
-    font-size: 23px;
-    border-top: 2px dashed #d3d7de;
-    border-bottom: 2px dashed #d3d7de;
-    padding: 22px 0;
-    margin-bottom: 40px;
-}
-
-.a4.lab .two-cols {
-    grid-template-columns: 1fr;
-    text-align: center;
-    gap: 30px;
-}
-
-.a4.lab .two-cols > div {
-    align-items: center;
-}
-
-.a4.lab .bottom {
-    justify-content: center;
-}
-
-
-/* =========================================================
-   INFO SECTION
-   ========================================================= */
-
-.info {
-    max-width: 1100px;
-    margin: 0 auto 30px;
-    padding: 25px;
-    text-align: center;
-}
-
-.info h2 {
-    margin: 0 0 8px;
-}
-
-.info p {
-    color: #637087;
-}
-
-
-/* =========================================================
-   FOOTER
-   ========================================================= */
-
-footer {
-    background: #092c68;
-    color: #fff;
-    padding: 22px 7%;
-    display: flex;
-    justify-content: space-between;
-    gap: 18px;
-    flex-wrap: wrap;
-    font-size: 12px;
-}
-
-
-/* =========================================================
-   TOAST
-   ========================================================= */
-
-.toast {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #12284d;
-    color: #fff;
-    padding: 12px 16px;
-    border-radius: 7px;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: .25s;
-    pointer-events: none;
-}
-
-.toast.show {
-    opacity: 1;
-    transform: none;
-}
-
-
-/* =========================================================
-   RESPONSIVE - 1000PX
-   ========================================================= */
-
-@media (max-width: 1000px) {
-
-    .workspace {
-        grid-template-columns: 1fr;
-    }
-
-    .topbar nav a {
-        display: none;
-    }
-
-    .topbar {
-        height: auto;
-    }
-
-    .preview-card {
-        order: -1;
-    }
-
-    .a4 {
-        transform-origin: top center;
-    }
-
-    .a4-wrap {
-        min-height: 600px;
-    }
-
-    .grid.two {
-        grid-template-columns: 1fr;
-    }
-}
-
-
-/* =========================================================
-   RESPONSIVE - 600PX
-   ========================================================= */
-
-@media (max-width: 600px) {
-
-    .topbar {
-        padding: 10px 14px;
-    }
-
-    .brand h1 {
-        font-size: 15px;
-    }
-
-    .brand p {
-        font-size: 11px;
-    }
-
-    .brand img {
-        width: 45px;
-        height: 45px;
-    }
-
-    .form-card,
-    .preview-card {
-        padding: 14px;
-    }
-
-    .preview-head {
-        align-items: flex-start;
-        flex-direction: column;
-    }
-
-    .a4-wrap {
-        padding: 8px;
-    }
-
-    .a4 {
-        transform: scale(.62);
-        transform-origin: top center;
-        margin-bottom: -420px;
-    }
-
-    .actions {
-        position: sticky;
-        bottom: 8px;
-        background: #fff;
-        padding-top: 8px;
-    }
-
-    .grid.two {
-        grid-template-columns: 1fr;
-    }
-}
-
-
-/* =========================================================
-   PRINT
-   ========================================================= */
-
-@media print {
-
-    body {
-        background: #fff;
-    }
-
-    .topbar,
-    .hero,
-    .form-card,
-    .preview-head,
-    .template-strip,
-    .hint,
-    .info,
-    footer {
-        display: none !important;
-    }
-
-    .workspace {
-        display: block;
-        margin: 0;
-        padding: 0;
-    }
-
-    .preview-card {
-        border: 0;
-        box-shadow: none;
-        padding: 0;
-    }
-
-    .a4-wrap {
-        padding: 0;
-        background: #fff;
-        overflow: visible;
-    }
-
-    .a4 {
-        box-shadow: none;
-        width: 210mm;
-        height: 297mm;
-        transform: none !important;
-        margin: 0;
-        padding: 19mm 17mm 16mm;
-    }
-
-    .a4.border {
-        padding: 17mm 15mm 15mm;
-    }
-
-    .a4.minimal {
-        padding: 23mm 20mm;
-    }
-
-    .a4.lab {
-        padding: 18mm 15mm;
-    }
-
-    @page {
-        size: A4 portrait;
-        margin: 0;
-    }
-}
-
-
-/* =========================================================
-   ABOUT / DEVELOPERS
-   ========================================================= */
-
-.about-section {
-    text-align: center;
-}
-
-.developers {
-    max-width: 900px;
-    margin: 22px auto 0;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 18px;
-}
-
-.developer-card {
-    background: #fff;
-    border: 1px solid #dbe5f2;
-    border-radius: 16px;
-    padding: 22px;
-    text-align: left;
-    box-shadow: 0 8px 24px rgba(16, 42, 67, .06);
-}
-
-.developer-card h3 {
-    margin: 0 0 8px;
-    color: #123b68;
-}
-
-.developer-card p {
-    margin: 0 0 10px;
-    line-height: 1.55;
-    color: #52657a;
-}
-
-.developer-card span {
-    color: #245b8f;
-    font-weight: 700;
-}
-
-
-/* =========================================================
-   RESPONSIVE ABOUT SECTION
-   ========================================================= */
-
-@media (max-width: 700px) {
-
-    .developers {
-        grid-template-columns: 1fr;
-    }
-}
-
-
-/* =========================================================
-   STANDARDIZED A4 DOCUMENT LAYOUT
-   ========================================================= */
-
-.about-section[hidden] {
-    display: none !important;
-}
-
-.about-section {
-    max-width: 1100px;
-}
-
-.faculty-column,
-.student-column {
-    min-width: 0;
-}
 
 .faculty-entry {
     min-height: 78px;
+
     display: flex;
     flex-direction: column;
+
     justify-content: flex-start;
 }
 
 .faculty-entry + .faculty-entry {
     margin-top: 18px;
     padding-top: 18px;
+
     border-top: 1px solid #d9dee7;
 }
 
@@ -945,181 +638,386 @@ footer {
 
 
 /* =========================================================
-   A4 SAFE STRUCTURE
+   BOTTOM
    ========================================================= */
 
-.a4 {
-    width: 210mm !important;
-    height: 297mm !important;
-    min-width: 210mm;
-    min-height: 297mm;
-    max-width: 210mm;
-    max-height: 297mm;
-    overflow: hidden;
-    position: relative;
+.bottom {
+    position: absolute;
+
+    bottom: 36px;
+
+    left: 68px;
+    right: 68px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    font-size: 12px;
 }
 
-.a4 .two-cols {
-    align-items: start;
-}
+.hint {
+    text-align: center;
 
-.a4 .two-cols > div {
-    min-width: 0;
-}
+    color: #7a8597;
 
-.a4.minimal .faculty-entry {
-    min-height: 78px;
-}
+    font-size: 11px;
 
-.a4.lab .faculty-entry {
-    min-height: 78px;
-}
-
-.a4.border .faculty-entry {
-    min-height: 78px;
+    margin: 8px 0 0;
 }
 
 
 /* =========================================================
-   PRINT - STANDARDIZED A4
+   BORDER TEMPLATE
    ========================================================= */
 
-@media print {
+.a4.border {
+    border: 8px double #19365f;
 
-    html,
-    body {
-        width: 210mm;
-        min-height: 297mm;
-        background: #fff !important;
-        margin: 0 !important;
-        padding: 0 !important;
-    }
+    padding: 66px 60px 60px;
+}
 
-    .workspace {
-        width: 210mm !important;
-        max-width: none !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        display: block !important;
-    }
+.a4.border:before {
+    content: "";
 
-    .preview-card {
-        width: 210mm !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        border: 0 !important;
-        box-shadow: none !important;
-    }
+    position: absolute;
 
-    .a4-wrap {
-        width: 210mm !important;
-        height: 297mm !important;
-        padding: 0 !important;
-        margin: 0 !important;
-        overflow: hidden !important;
-    }
+    inset: 13px;
 
-    .a4 {
-        width: 210mm !important;
-        height: 297mm !important;
-        margin: 0 !important;
-        transform: none !important;
-        box-shadow: none !important;
-        overflow: hidden !important;
-        page-break-after: avoid !important;
-    }
+    border: 1px solid #19365f;
 
-    @page {
-        size: A4 portrait;
-        margin: 0;
-    }
+    pointer-events: none;
+}
+
+.a4.border .rule {
+    background: #19365f;
 }
 
 
 /* =========================================================
-   STANDARDIZED TEMPLATE CONTENT STRUCTURE
+   MINIMAL TEMPLATE
    ========================================================= */
 
-/*
-   All selectable templates use one standardized
-   academic content structure; only visual framing differs.
-*/
+.a4.minimal {
+    font-family: Arial, sans-serif;
 
-.a4.minimal .two-cols,
-.a4.lab .two-cols {
-    grid-template-columns: 1fr 1fr;
     text-align: left;
+
+    padding: 90px 78px;
+}
+
+.a4.minimal .a4-logo {
+    text-align: left;
+}
+
+.a4.minimal h3 {
+    font-size: 24px;
+
+    text-align: left;
+}
+
+.a4.minimal .rule {
+    margin: 28px 0;
+
+    width: 100%;
+
+    background: #111;
+}
+
+.a4.minimal .doc-type {
+    font-size: 30px;
+
+    margin-top: 60px;
+}
+
+.a4.minimal .course {
+    text-align: left;
+}
+
+.a4.minimal .title {
+    justify-content: center;
+
+    font-size: 27px;
+
+    border-left: 0;
+
+    padding-left: 0;
+
+    text-align: center;
+}
+
+.a4.minimal .two-cols {
+    grid-template-columns: 1fr 1fr;
+
+    text-align: left;
+
     gap: 55px;
 }
 
-.a4.minimal .two-cols > div,
+.a4.minimal .bottom {
+    left: 78px;
+    right: 78px;
+}
+
+
+/* =========================================================
+   LAB TEMPLATE
+   ========================================================= */
+
+.a4.lab {
+    font-family: Arial, sans-serif;
+
+    border: 2px solid #d3d7de;
+
+    padding: 70px 58px;
+}
+
+.a4.lab .doc-type {
+    font-size: 28px;
+}
+
+.a4.lab .title {
+    font-size: 23px;
+
+    border-top: 0;
+    border-bottom: 0;
+
+    padding: 22px 0;
+
+    margin-bottom: 40px;
+
+    justify-content: center;
+
+    text-align: center;
+}
+
+.a4.lab .two-cols {
+    grid-template-columns: 1fr 1fr;
+
+    text-align: left;
+
+    gap: 55px;
+}
+
 .a4.lab .two-cols > div {
     align-items: stretch;
 }
 
-.a4.minimal .title,
-.a4.lab .title {
+.a4.lab .bottom {
     justify-content: center;
+}
+
+
+/* =========================================================
+   INFO / ABOUT
+   ========================================================= */
+
+.info {
+    max-width: 1100px;
+
+    margin: 0 auto 30px;
+
+    padding: 25px;
+
     text-align: center;
-    border-left: 0;
-    border-top: 0;
-    border-bottom: 0;
 }
 
-.a4.minimal .doc-type,
-.a4.lab .doc-type {
-    margin-bottom: 16px;
+.info h2 {
+    margin: 0 0 8px;
 }
+
+.info p {
+    color: #637087;
+}
+
+.about-section[hidden] {
+    display: none !important;
+}
+
+.developers {
+    max-width: 900px;
+
+    margin: 22px auto 0;
+
+    display: grid;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 18px;
+}
+
+.developer-card {
+    background: #fff;
+
+    border: 1px solid #dbe5f2;
+
+    border-radius: 16px;
+
+    padding: 22px;
+
+    text-align: left;
+
+    box-shadow: 0 8px 24px rgba(16, 42, 67, .06);
+}
+
+.developer-card h3 {
+    margin: 0 0 8px;
+
+    color: #123b68;
+}
+
+.developer-card p {
+    margin: 0 0 10px;
+
+    line-height: 1.55;
+
+    color: #52657a;
+}
+
+.developer-card span {
+    color: #245b8f;
+
+    font-weight: 700;
+}
+
+
 /* =========================================================
-   MOBILE RESPONSIVE FIX - V5
+   FOOTER
    ========================================================= */
 
-/* Prevent horizontal scrolling */
-html,
-body {
-    max-width: 100%;
-    overflow-x: hidden;
+footer {
+    background: #092c68;
+
+    color: #fff;
+
+    padding: 22px 7%;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 18px;
+
+    flex-wrap: wrap;
+
+    font-size: 12px;
 }
 
+
 /* =========================================================
-   TABLET / MOBILE
+   TOAST
    ========================================================= */
 
-@media (max-width: 1000px) {
+.toast {
+    position: fixed;
+
+    bottom: 20px;
+    right: 20px;
+
+    max-width: calc(100vw - 40px);
+
+    background: #12284d;
+
+    color: #fff;
+
+    padding: 12px 16px;
+
+    border-radius: 7px;
+
+    opacity: 0;
+
+    transform: translateY(10px);
+
+    transition: .25s;
+
+    pointer-events: none;
+
+    z-index: 1000;
+}
+
+.toast.show {
+    opacity: 1;
+
+    transform: none;
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1100px) {
 
     .topbar {
-        position: sticky;
-        top: 0;
-        width: 100%;
-        min-height: 70px;
-        height: auto;
-        padding: 10px 16px;
+        padding: 12px 18px;
+    }
+
+    .topbar nav {
         gap: 12px;
     }
 
+    .workspace {
+        grid-template-columns: 1fr;
+    }
+
+    .preview-card {
+        order: -1;
+    }
+
+    .a4-wrap {
+        min-height: 600px;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    body {
+        width: 100%;
+        overflow-x: hidden;
+    }
+
+    /* ---------- TOP BAR ---------- */
+
+    .topbar {
+        min-height: auto;
+
+        padding: 10px 12px;
+
+        align-items: center;
+
+        position: sticky;
+    }
+
     .brand {
-        min-width: 0;
         gap: 9px;
     }
 
     .brand img {
-        width: 45px;
-        height: 45px;
-        flex-shrink: 0;
+        width: 43px;
+        height: 43px;
     }
 
     .brand h1 {
-        font-size: 17px;
+        font-size: 15px;
+
         line-height: 1.2;
+
+        margin-bottom: 2px;
     }
 
     .brand p {
-        font-size: 11px;
+        font-size: 10px;
+
+        line-height: 1.2;
     }
 
     .topbar nav {
-        gap: 8px;
-        flex-shrink: 0;
+        gap: 6px;
     }
 
     .topbar nav a {
@@ -1127,247 +1025,63 @@ body {
     }
 
     .topbar button {
-        padding: 9px 11px;
         font-size: 11px;
-        white-space: nowrap;
-    }
 
-    .workspace {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        max-width: 100%;
-        margin: 12px auto 25px;
-        padding: 0 10px;
-        gap: 15px;
-    }
-
-    /* Show preview first */
-    .preview-card {
-        order: -1;
-        width: 100%;
-        padding: 12px;
-    }
-
-    .form-card {
-        width: 100%;
-        padding: 16px;
-    }
-
-    .grid.two {
-        grid-template-columns: 1fr;
-    }
-
-    .preview-head {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .preview-head h2 {
-        font-size: 17px;
-    }
-
-    .preview-head > div {
-        width: 100%;
-    }
-
-    .preview-head button {
-        flex: 1;
-        min-width: 0;
-    }
-
-    /* Template buttons scroll instead of overflowing */
-    .template-strip {
-        width: 100%;
-        overflow-x: auto;
-        overflow-y: hidden;
-        flex-wrap: nowrap;
-        padding-bottom: 5px;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    .template {
-        flex: 0 0 auto;
-        white-space: nowrap;
-    }
-
-    /* A4 preview container */
-    .a4-wrap {
-        width: 100%;
-        padding: 10px;
-        overflow: hidden;
-        display: flex;
-        justify-content: center;
-        align-items: flex-start;
-        background: #edf1f6;
-    }
-
-    /*
-       The actual A4 stays 794 x 1123 px.
-       JavaScript will scale it automatically.
-    */
-    .a4 {
-        width: 794px !important;
-        height: 1123px !important;
-        min-width: 794px !important;
-        max-width: 794px !important;
-        min-height: 1123px !important;
-        max-height: 1123px !important;
-
-        transform-origin: top center !important;
-
-        margin: 0 auto !important;
-
-        flex-shrink: 0;
-
-        box-shadow: 0 3px 15px rgba(0,0,0,.12);
-    }
-
-    .actions {
-        display: flex;
-        width: 100%;
-    }
-
-    .actions button {
-        min-height: 44px;
-    }
-}
-
-
-/* =========================================================
-   MOBILE PHONE
-   ========================================================= */
-
-@media (max-width: 600px) {
-
-    body {
-        font-size: 14px;
-    }
-
-    /* ---------- HEADER ---------- */
-
-    .topbar {
         padding: 9px 10px;
-        min-height: 62px;
-    }
 
-    .brand {
-        gap: 8px;
-    }
-
-    .brand img {
-        width: 40px;
-        height: 40px;
-    }
-
-    .brand h1 {
-        font-size: 14px;
-        margin-bottom: 2px;
-    }
-
-    .brand p {
-        font-size: 9px;
-        line-height: 1.2;
-    }
-
-    .topbar button {
-        padding: 8px 9px;
-        font-size: 10px;
-        border-radius: 5px;
+        min-height: 36px;
     }
 
 
     /* ---------- HERO ---------- */
 
     .hero {
-        padding: 14px 10px;
+        padding: 16px 12px;
+
         font-size: 13px;
     }
 
     .hero p {
         font-size: 12px;
-        margin-top: 5px;
+
+        margin-top: 6px;
     }
 
 
     /* ---------- WORKSPACE ---------- */
 
     .workspace {
-        padding: 0 7px;
-        margin-top: 8px;
-        gap: 10px;
-    }
+        display: flex;
 
-
-    /* ---------- CARDS ---------- */
-
-    .form-card,
-    .preview-card {
-        border-radius: 8px;
-        padding: 12px;
-    }
-
-
-    /* ---------- STEPS ---------- */
-
-    .steps {
-        margin-bottom: 16px;
-    }
-
-    .step span {
-        width: 30px;
-        height: 30px;
-        font-size: 13px;
-    }
-
-    .step small {
-        font-size: 10px;
-    }
-
-    .steps i {
-        width: 35px;
-        margin: 0 5px;
-    }
-
-
-    /* ---------- FORM ---------- */
-
-    .section-title {
-        padding: 14px 0 10px;
-        font-size: 14px;
-    }
-
-    .grid {
-        gap: 11px;
-    }
-
-    .grid label {
-        font-size: 11px;
-    }
-
-    .grid input,
-    .grid select {
-        height: 42px;
-        font-size: 14px;
-        margin-top: 5px;
-    }
-
-
-    /* ---------- BUTTONS ---------- */
-
-    .actions {
         flex-direction: column;
-        gap: 8px;
-    }
 
-    .actions button {
         width: 100%;
+
+        margin: 10px auto 20px;
+
+        padding: 0 8px;
+
+        gap: 12px;
     }
 
 
-    /* ---------- PREVIEW HEADER ---------- */
+    /* ---------- PREVIEW ---------- */
+
+    .preview-card {
+        order: -1;
+
+        width: 100%;
+
+        padding: 10px;
+
+        border-radius: 8px;
+    }
 
     .preview-head {
+        flex-direction: column;
+
+        align-items: stretch;
+
         gap: 9px;
     }
 
@@ -1377,60 +1091,220 @@ body {
 
     .preview-head > div {
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 7px;
+
+        grid-template-columns: repeat(3, 1fr);
+
+        gap: 6px;
+
+        width: 100%;
     }
 
     .preview-head button {
         width: 100%;
-        min-height: 42px;
-        padding: 8px 6px;
+
+        padding: 9px 5px;
+
         font-size: 11px;
     }
 
-    /*
-       Download PDF gets full width
-    */
-    #downloadBtn {
-        grid-column: 1 / -1;
+
+    /* ---------- TEMPLATE BUTTONS ---------- */
+
+    .template-strip {
+        margin: 10px 0;
+
+        gap: 6px;
+
+        overflow-x: auto;
+    }
+
+    .template {
+        padding: 8px 10px;
+
+        font-size: 11px;
     }
 
 
     /* ---------- A4 PREVIEW ---------- */
 
     .a4-wrap {
-        padding: 6px;
         width: 100%;
-        min-height: 300px;
+
+        padding: 10px;
+
+        justify-content: flex-start;
+
+        overflow-x: auto;
+
+        overflow-y: hidden;
+
+        -webkit-overflow-scrolling: touch;
     }
+
+    /*
+       IMPORTANT:
+       No transform scaling here.
+       The complete A4 page remains at its real ratio.
+       User can horizontally scroll the preview.
+    */
 
     .a4 {
-        width: 794px !important;
-        height: 1123px !important;
-        min-width: 794px !important;
-        min-height: 1123px !important;
+        flex: 0 0 210mm;
 
-        transform-origin: top center !important;
+        width: 210mm !important;
+        height: 297mm !important;
 
-        margin: 0 auto !important;
+        min-width: 210mm;
+
+        transform: none !important;
+
+        margin: 0 auto;
     }
 
 
-    /* ---------- HINT ---------- */
+    /* ---------- FORM ---------- */
 
-    .hint {
+    .form-card {
+        width: 100%;
+
+        padding: 15px;
+
+        border-radius: 8px;
+    }
+
+    .steps {
+        margin-bottom: 17px;
+    }
+
+    .step {
         font-size: 10px;
-        line-height: 1.4;
+    }
+
+    .step span {
+        width: 30px;
+        height: 30px;
+
+        font-size: 13px;
+    }
+
+    .steps i {
+        width: 35px;
+
+        margin: 0 5px;
+    }
+
+    .section-title {
+        padding: 15px 0 10px;
+
+        font-size: 13px;
+    }
+
+    .grid.two {
+        grid-template-columns: 1fr;
+
+        gap: 12px;
+    }
+
+    .grid label {
+        font-size: 12px;
+    }
+
+    .grid input,
+    .grid select {
+        height: 44px;
+
+        font-size: 14px;
+    }
+
+    .actions {
+        display: grid;
+
+        grid-template-columns: 90px 1fr;
+
+        gap: 8px;
+
+        position: sticky;
+
+        bottom: 8px;
+
+        z-index: 50;
+
+        background: rgba(255, 255, 255, .96);
+
+        padding: 8px;
+
+        margin-left: -8px;
+
+        margin-right: -8px;
+
+        border-top: 1px solid #e1e6ee;
+    }
+
+    .actions button {
+        min-height: 44px;
+
+        font-size: 12px;
+    }
+
+
+    /* ---------- ABOUT ---------- */
+
+    .info {
+        padding: 18px 12px;
+
+        margin-bottom: 20px;
+    }
+
+    .info h2 {
+        font-size: 21px;
+    }
+
+    .info p {
+        font-size: 13px;
+
+        line-height: 1.5;
+    }
+
+    .developers {
+        grid-template-columns: 1fr;
+
+        gap: 12px;
+    }
+
+    .developer-card {
+        padding: 17px;
+
+        border-radius: 12px;
     }
 
 
     /* ---------- FOOTER ---------- */
 
     footer {
-        padding: 18px 12px;
+        padding: 18px 15px;
+
         flex-direction: column;
+
         text-align: center;
+
+        align-items: center;
+
         gap: 8px;
+    }
+
+
+    /* ---------- TOAST ---------- */
+
+    .toast {
+        left: 12px;
+
+        right: 12px;
+
+        bottom: 12px;
+
+        max-width: none;
+
+        text-align: center;
     }
 }
 
@@ -1441,65 +1315,146 @@ body {
 
 @media (max-width: 380px) {
 
-    .brand h1 {
-        font-size: 12px;
-    }
-
     .brand p {
         display: none;
     }
 
-    .brand img {
-        width: 36px;
-        height: 36px;
+    .brand h1 {
+        font-size: 14px;
     }
 
-    .topbar button {
-        font-size: 9px;
-        padding: 7px;
+    .brand img {
+        width: 39px;
+        height: 39px;
+    }
+
+    .preview-head > div {
+        grid-template-columns: 1fr;
+    }
+
+    .steps i {
+        width: 20px;
+
+        margin: 0 3px;
     }
 
     .step small {
         font-size: 9px;
     }
 
-    .steps i {
-        width: 20px;
+    .actions {
+        grid-template-columns: 80px 1fr;
     }
 }
 
 
 /* =========================================================
-   MOBILE A4 SCALING
-   ========================================================= */
-
-/*
-   The JavaScript calculates the correct scale based
-   on the available phone width.
-*/
-
-.a4.mobile-scaled {
-    transform-origin: top center !important;
-}
-
-
-/* =========================================================
-   PRINT OVERRIDE
+   PRINT
    ========================================================= */
 
 @media print {
 
+    html,
+    body {
+        width: 210mm;
+
+        min-height: 297mm;
+
+        background: #fff !important;
+
+        margin: 0 !important;
+
+        padding: 0 !important;
+    }
+
+    .topbar,
+    .hero,
+    .form-card,
+    .preview-head,
+    .template-strip,
+    .hint,
+    .info,
+    footer {
+        display: none !important;
+    }
+
+    .workspace {
+        width: 210mm !important;
+
+        max-width: none !important;
+
+        display: block !important;
+
+        margin: 0 !important;
+
+        padding: 0 !important;
+    }
+
+    .preview-card {
+        width: 210mm !important;
+
+        margin: 0 !important;
+
+        padding: 0 !important;
+
+        border: 0 !important;
+
+        box-shadow: none !important;
+    }
+
+    .a4-wrap {
+        width: 210mm !important;
+
+        height: 297mm !important;
+
+        padding: 0 !important;
+
+        margin: 0 !important;
+
+        overflow: hidden !important;
+
+        background: #fff !important;
+    }
+
     .a4 {
         width: 210mm !important;
+
         height: 297mm !important;
 
         min-width: 210mm !important;
+
         min-height: 297mm !important;
 
         max-width: 210mm !important;
+
         max-height: 297mm !important;
 
-        transform: none !important;
         margin: 0 !important;
+
+        transform: none !important;
+
+        box-shadow: none !important;
+
+        overflow: hidden !important;
+
+        page-break-after: avoid !important;
+    }
+
+    .a4.border {
+        padding: 17mm 15mm 15mm;
+    }
+
+    .a4.minimal {
+        padding: 23mm 20mm;
+    }
+
+    .a4.lab {
+        padding: 18mm 15mm;
+    }
+
+    @page {
+        size: A4 portrait;
+
+        margin: 0;
     }
 }

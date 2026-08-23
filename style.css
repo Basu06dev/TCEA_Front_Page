@@ -804,6 +804,15 @@ body {
 
 
 /* =========================================================
+   TEMPLATE 6 SUBMISSION HEADING
+========================================================= */
+
+.assignment-heading {
+    display: none;
+}
+
+
+/* =========================================================
    COLLEGE HEADING
 ========================================================= */
 
@@ -1868,4 +1877,144 @@ footer {
 
 .a4.record .record-book-top-logo {
     display: none !important;
+}
+
+/* =========================================================
+   ASSIGNMENT TEMPLATE 06
+   Based on the newly provided assignment cover format.
+   ========================================================= */
+
+.a4.assignment {
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    border: 2px solid #111111;
+
+    padding:
+        55px 58px 50px;
+
+    text-align: center;
+}
+
+.a4.assignment .record-book-top-logo {
+    display: none !important;
+}
+
+.a4.assignment .record-heading {
+    display: none;
+}
+
+.a4.assignment .assignment-heading {
+    display: block;
+    font-size: 27px;
+    line-height: 1.2;
+    font-weight: 800;
+    letter-spacing: 0;
+    margin: 0 0 30px;
+    text-align: center;
+}
+
+.a4.assignment .rule {
+    display: none;
+}
+
+.a4.assignment .doc-type {
+    display: none;
+}
+
+.a4.assignment h3 {
+    color: #7f1717;
+    font-size: 28px;
+    line-height: 1.2;
+    margin: 0 0 34px;
+}
+
+.a4.assignment .course {
+    font-size: 17px;
+    line-height: 2.8;
+    margin-bottom: 18px;
+}
+
+.a4.assignment .record-center-logo {
+    display: block;
+    margin: 10px auto 28px;
+}
+
+.a4.assignment .record-center-logo img {
+    width: 145px;
+    height: 145px;
+}
+
+.a4.assignment .two-cols {
+    grid-template-columns: 1fr;
+    gap: 34px;
+    text-align: center;
+    margin-top: 4px;
+    font-size: 15px;
+    line-height: 1.65;
+}
+
+.a4.assignment .two-cols > div {
+    align-items: center;
+}
+
+.a4.assignment .two-cols b {
+    color: #7f1717;
+    font-size: 17px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    border-bottom: 1px solid #777777;
+    padding: 0 35px 5px;
+}
+
+.a4.assignment .two-cols strong {
+    font-size: 18px;
+}
+
+.a4.assignment .faculty-entry {
+    min-height: auto;
+    align-items: center;
+}
+
+.a4.assignment .student-column {
+    align-items: center;
+}
+
+.a4.assignment .student-column span {
+    font-size: 15px;
+}
+
+.a4.assignment .bottom {
+    left: 58px;
+    right: 58px;
+    bottom: 28px;
+    justify-content: center;
+    gap: 80px;
+    font-size: 13px;
+}
+
+@media print {
+    .a4.assignment {
+        padding: 14mm 15mm 13mm;
+    }
+
+    .a4.assignment .record-center-logo {
+        margin-top: 3mm;
+        margin-bottom: 7mm;
+    }
+
+    .a4.assignment .record-center-logo img {
+        width: 38mm;
+        height: 38mm;
+    }
+
+    .a4.assignment h3 {
+        margin-bottom: 8mm;
+    }
+
+    .a4.assignment .course {
+        line-height: 2.2;
+    }
 }

@@ -121,7 +121,10 @@ const preview = {
         $("pRecordHeading"),
 
     recordCenterLogo:
-        $("recordCenterLogo")
+        $("recordCenterLogo"),
+
+    assignmentHeading:
+        $("pAssignmentHeading")
 
 };
 
@@ -350,7 +353,7 @@ function updatePreview() {
     ) {
 
         preview.documentType.textContent =
-            "LABORATORY RECORD";
+            "LAB COPY";
 
     } else if (
         submission === "Practical Report"
@@ -381,10 +384,16 @@ function updatePreview() {
 function updateTemplateContent() {
 
 
+    /*
+       Record Book heading follows the selected
+       Type of Submission. This is intentionally
+       limited to the Record Book template.
+    */
+
     if (currentTemplate === "record") {
 
         preview.recordHeading.textContent =
-            "Laboratory Record Book";
+            valueOrDash(fields.submissionType.value);
 
     } else {
 
@@ -394,23 +403,30 @@ function updateTemplateContent() {
     }
 
 
-    /*
-       Automatically switch to laboratory
-       record style if user selects it.
-    */
+    /* Template 6: submission type is the centered heading
+       above the college name, exactly like the reference. */
 
-    if (
-        fields.submissionType.value ===
-        "Laboratory Record Book"
-    ) {
+    if (currentTemplate === "assignment") {
 
-        if (currentTemplate === "classic") {
+        preview.assignmentHeading.textContent =
+            valueOrDash(fields.submissionType.value).toUpperCase();
 
-            setTemplate("record", false);
+    } else {
 
-        }
+        preview.assignmentHeading.textContent =
+            "";
 
     }
+
+
+    /*
+       IMPORTANT:
+       Submission Type must NOT change the selected template.
+       The user chooses the visual template independently.
+       Changing Assignment-I / Assignment-II / Lab Copy /
+       Laboratory Record Book only updates the text in the
+       currently selected template.
+    */
 
 }
 
@@ -439,7 +455,9 @@ function setTemplate(
 
         "lab",
 
-        "record"
+        "record",
+
+        "assignment"
 
     );
 
@@ -1119,11 +1137,10 @@ function loadTemplate() {
     if (
         saved &&
         [
-            "classic",
             "border",
             "minimal",
-            "lab",
-            "record"
+            "record",
+            "assignment"
         ].includes(saved)
     ) {
 
@@ -1134,8 +1151,10 @@ function loadTemplate() {
 
     } else {
 
+        // Academic and Lab templates were removed from the selector.
+        // If an older browser saved either one, start with Double Border.
         setTemplate(
-            "classic",
+            "border",
             false
         );
 
@@ -1153,21 +1172,8 @@ fields.submissionType
         "change",
         () => {
 
-            if (
-                fields.submissionType.value ===
-                "Laboratory Record Book"
-            ) {
-
-                setTemplate(
-                    "record"
-                );
-
-                showToast(
-                    "Laboratory Record Book template selected."
-                );
-
-            }
-
+            // Keep the currently selected template.
+            // Only the document/submission type text changes.
             updatePreview();
 
         }

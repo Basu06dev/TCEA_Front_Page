@@ -11,7 +11,7 @@
 
     <title>TCEA Student Cover Page Maker</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
@@ -24,7 +24,7 @@
 
     <div class="brand">
 
-        <img src="tcea-logo.jpg"
+        <img src="assets/tcea-logo.jpg"
              alt="TCEA Logo"
              class="brand-logo">
 
@@ -647,23 +647,9 @@
         <button
             type="button"
             class="template active"
-            data-template="classic">
-
-            <b>01</b>
-
-            <span>
-                Academic
-            </span>
-
-        </button>
-
-
-        <button
-            type="button"
-            class="template"
             data-template="border">
 
-            <b>02</b>
+            <b>01</b>
 
             <span>
                 Double Border
@@ -677,24 +663,10 @@
             class="template"
             data-template="minimal">
 
-            <b>03</b>
+            <b>02</b>
 
             <span>
                 Formal
-            </span>
-
-        </button>
-
-
-        <button
-            type="button"
-            class="template"
-            data-template="lab">
-
-            <b>04</b>
-
-            <span>
-                Lab
             </span>
 
         </button>
@@ -707,10 +679,26 @@
             class="template"
             data-template="record">
 
-            <b>05</b>
+            <b>03</b>
 
             <span>
                 Record Book
+            </span>
+
+        </button>
+
+
+        <!-- NEW TEMPLATE 06 -->
+
+        <button
+            type="button"
+            class="template"
+            data-template="assignment">
+
+            <b>04</b>
+
+            <span>
+                Assignment
             </span>
 
         </button>
@@ -729,7 +717,7 @@
 
             <div
                 id="a4"
-                class="a4 classic">
+                class="a4 border">
 
 
                 <!-- LOGO -->
@@ -737,7 +725,7 @@
                 <div class="a4-logo record-book-top-logo">
 
                     <img
-                        src="tcea-logo.jpg"
+                        src="assets/tcea-logo.jpg"
                         alt="TCEA Logo">
 
                 </div>
@@ -754,17 +742,23 @@
                 </div>
 
 
+                <!-- TEMPLATE 6 SUBMISSION HEADING -->
+
+                <div
+                    class="assignment-heading"
+                    id="pAssignmentHeading">
+
+                    ASSIGNMENT-I
+
+                </div>
+
+
                 <!-- COLLEGE -->
 
                 <h3>
                     TECHNO COLLEGE OF
                     ENGINEERING AGARTALA
                 </h3>
-
-
-                <p class="sub">
-                    (A Unit of Techno India Group)
-                </p>
 
 
                 <p class="addr">
@@ -816,7 +810,7 @@
                     id="recordCenterLogo">
 
                     <img
-                        src="tcea-logo.jpg"
+                        src="assets/tcea-logo.jpg"
                         alt="TCEA">
 
                 </div>
@@ -1107,7 +1101,7 @@
 
 <!-- YOUR JAVASCRIPT -->
 
-<script src="app.js"></script>
+<script src="js/app.js"></script>
 
 </body>
 </html>

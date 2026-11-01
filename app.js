@@ -52,6 +52,12 @@ const fields = {
 
     faculty2Dept: $("faculty2Dept"),
 
+    faculty3Name: $("faculty3Name"),
+
+    faculty3Designation: $("faculty3Designation"),
+
+    faculty3Dept: $("faculty3Dept"),
+
     submissionType: $("submissionType"),
 
     submissionDate: $("submissionDate")
@@ -86,6 +92,14 @@ const preview = {
 
     faculty2Dept:
         $("pFaculty2Dept"),
+
+    faculty3Block: $("pFaculty3Block"),
+
+    faculty3Name: $("pFaculty3Name"),
+
+    faculty3Designation: $("pFaculty3Designation"),
+
+    faculty3Dept: $("pFaculty3Dept"),
 
     studentName:
         $("pName"),
@@ -134,6 +148,7 @@ const preview = {
 ========================================================= */
 
 let currentTemplate = "classic";
+let facultyCount = 1;
 
 
 /* =========================================================
@@ -222,35 +237,23 @@ function updatePreview() {
         valueOrDash(fields.facultyDept.value);
 
 
-    /* SECOND FACULTY */
+    /* ADDITIONAL FACULTY MEMBERS */
 
-    const faculty2 =
-        fields.faculty2Name.value.trim();
+    updateFacultyVisibility();
 
-
-    if (faculty2 !== "") {
-
-        preview.faculty2Block.hidden = false;
-
-        preview.faculty2Name.textContent =
-            faculty2;
-
-        preview.faculty2Designation.textContent =
-            valueOrDash(
-                fields.faculty2Designation.value
-            );
-
-        preview.faculty2Dept.textContent =
-            valueOrDash(
-                fields.faculty2Dept.value
-            );
-
-    } else {
-
-        preview.faculty2Block.hidden = true;
-
+    if (facultyCount >= 2) {
+        preview.faculty2Name.textContent = valueOrDash(fields.faculty2Name.value);
+        preview.faculty2Designation.textContent = valueOrDash(fields.faculty2Designation.value);
+        preview.faculty2Dept.textContent = valueOrDash(fields.faculty2Dept.value);
+        preview.faculty2Block.hidden = !fields.faculty2Name.value.trim();
     }
 
+    if (facultyCount >= 3) {
+        preview.faculty3Name.textContent = valueOrDash(fields.faculty3Name.value);
+        preview.faculty3Designation.textContent = valueOrDash(fields.faculty3Designation.value);
+        preview.faculty3Dept.textContent = valueOrDash(fields.faculty3Dept.value);
+        preview.faculty3Block.hidden = !fields.faculty3Name.value.trim();
+    }
 
     /* STUDENT */
 
@@ -375,6 +378,60 @@ function updatePreview() {
     saveDraft();
 
 }
+
+
+/* =========================================================
+   OPTIONAL FACULTY CONTROLS
+========================================================= */
+
+function updateFacultyVisibility() {
+    $("faculty2Form").hidden = facultyCount < 2;
+    $("faculty3Form").hidden = facultyCount < 3;
+    $("pFaculty2Block").hidden = facultyCount < 2 || !fields.faculty2Name.value.trim();
+    $("pFaculty3Block").hidden = facultyCount < 3 || !fields.faculty3Name.value.trim();
+    $("addFacultyBtn").hidden = facultyCount >= 3;
+    $("facultyLimitNote").textContent = `${facultyCount} of 3 faculty added`;
+}
+
+$("addFacultyBtn").addEventListener("click", () => {
+    if (facultyCount < 3) {
+        facultyCount += 1;
+        updateFacultyVisibility();
+        saveDraft();
+        const firstInput = $(`faculty${facultyCount}Name`);
+        if (firstInput) firstInput.focus();
+    }
+});
+
+document.querySelectorAll("[data-remove-faculty]").forEach(button => {
+    button.addEventListener("click", () => {
+        const number = Number(button.dataset.removeFaculty);
+        if (number === 2 && facultyCount >= 2) {
+            [fields.faculty2Name, fields.faculty2Designation, fields.faculty2Dept].forEach(field => {
+                if (field.tagName === "SELECT") field.selectedIndex = 0;
+                else field.value = "";
+            });
+            if (facultyCount === 3) {
+                fields.faculty2Name.value = fields.faculty3Name.value;
+                fields.faculty2Designation.value = fields.faculty3Designation.value;
+                fields.faculty2Dept.value = fields.faculty3Dept.value;
+                [fields.faculty3Name, fields.faculty3Designation, fields.faculty3Dept].forEach(field => {
+                    if (field.tagName === "SELECT") field.selectedIndex = 0;
+                    else field.value = "";
+                });
+            }
+            facultyCount = Math.max(1, facultyCount - 1);
+        } else if (number === 3 && facultyCount === 3) {
+            [fields.faculty3Name, fields.faculty3Designation, fields.faculty3Dept].forEach(field => {
+                if (field.tagName === "SELECT") field.selectedIndex = 0;
+                else field.value = "";
+            });
+            facultyCount = 2;
+        }
+        updatePreview();
+        saveDraft();
+    });
+});
 
 
 /* =========================================================
@@ -658,6 +715,9 @@ $("resetBtn")
 
                 });
 
+
+            facultyCount = 1;
+            updateFacultyVisibility();
 
             localStorage.removeItem(
                 "tcea-draft"
@@ -1017,6 +1077,8 @@ function saveDraft() {
         });
 
 
+    data.facultyCount = facultyCount;
+
     localStorage.setItem(
         "tcea-draft",
         JSON.stringify(data)
@@ -1050,6 +1112,7 @@ function loadDraft() {
         const data =
             JSON.parse(saved);
 
+        facultyCount = Math.min(3, Math.max(1, Number(data.facultyCount) || (data.faculty2Name ? 2 : 1)));
 
         Object.keys(fields)
             .forEach(key => {
@@ -1164,52 +1227,11 @@ function loadTemplate() {
 
 
 /* =========================================================
-   SUBMISSION TYPE AUTOMATIC TEMPLATE
-========================================================= */
-
-fields.submissionType
-    .addEventListener(
-        "change",
-        () => {
-
-            // Keep the currently selected template.
-            // Only the document/submission type text changes.
-            updatePreview();
-
-        }
-    );
-
-
-/* =========================================================
    INITIALIZE
 ========================================================= */
 
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
-
-        loadDraft();
-
-        loadTemplate();
-
-        updatePreview();
-
-        resizeA4();
-
-    }
-);
-
-
-/*
-   Also execute immediately because
-   this script is loaded at the bottom
-   of the HTML document.
-*/
-
 loadDraft();
-
+updateFacultyVisibility();
 loadTemplate();
-
 updatePreview();
-
 resizeA4();

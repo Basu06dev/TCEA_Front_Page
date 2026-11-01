@@ -11,7 +11,7 @@
 
     <title>TCEA Student Cover Page Maker</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
@@ -364,149 +364,99 @@
     </div>
 
 
-    <div class="grid two">
-
-
-        <label>
-
-            Faculty Name
-
-            <input
-                type="text"
-                id="facultyName"
-                placeholder="e.g. Enter your Faculty Name">
-
-        </label>
-
-
-        <label>
-
-            Designation
-
-            <select id="designation">
-
-                <option>Assistant Professor</option>
-
-                <option>Lecturer</option>
-
-                <option>Associate Professor</option>
-
-                <option>Professor</option>
-
-            </select>
-
-        </label>
-
-
-        <label>
-
-            Faculty Department
-
-            <select id="facultyDept">
-
-                <option>
-                    Department of Computer Science & Engineering
-                </option>
-
-                <option>
-                    Department of Artificial Intelligence & Data Science
-                </option>
-
-                <option>
-                    Department of Electrical Engineering
-                </option>
-
-                <option>
-                    Department of Mechanical Engineering
-                </option>
-
-                <option>
-                    Department of Civil Engineering
-                </option>
-
-                <option>
-                    Department of Electronics & Communication Engineering
-                </option>
-
-                <option>
-                    Department of Basic Science & Humanities
-                </option>
-
-            </select>
-
-        </label>
-
-
-        <label>
-
-            Second Faculty Name
-            <span class="optional">
-                optional
-            </span>
-
-            <input
-                type="text"
-                id="faculty2Name"
-                placeholder="Optional second faculty">
-
-        </label>
-
-
-        <label>
-
-            Second Faculty Designation
-
-            <select id="faculty2Designation">
-
-                <option>Assistant Professor</option>
-
-                <option>Lecturer</option>
-
-                <option>Associate Professor</option>
-
-                <option>Professor</option>
-
-            </select>
-
-        </label>
-
-
-        <label>
-
-            Second Faculty Department
-
-            <select id="faculty2Dept">
-
-                <option>
-                    Department of Computer Science & Engineering
-                </option>
-
-                <option>
-                    Department of Artificial Intelligence & Data Science
-                </option>
-
-                <option>
-                    Department of Electrical Engineering
-                </option>
-
-                <option>
-                    Department of Mechanical Engineering
-                </option>
-
-                <option>
-                    Department of Civil Engineering
-                </option>
-
-                <option>
-                    Department of Basic Science & Humanities
-                </option>
-
-            </select>
-
-        </label>
-
+    <div class="faculty-form-card">
+        <div class="faculty-form-heading">
+            <strong>Faculty 1</strong>
+            <span class="faculty-primary-tag">Required section</span>
+        </div>
+        <div class="grid two">
+            <label>Faculty Name
+                <input type="text" id="facultyName" placeholder="Enter faculty name">
+            </label>
+            <label>Designation
+                <select id="designation">
+                    <option>Assistant Professor</option>
+                    <option>Lecturer</option>
+                    <option>Associate Professor</option>
+                    <option>Professor</option>
+                </select>
+            </label>
+            <label>Faculty Department
+                <select id="facultyDept">
+                    <option>Department of Computer Science &amp; Engineering</option>
+                    <option>Department of Artificial Intelligence &amp; Data Science</option>
+                    <option>Department of Electrical Engineering</option>
+                    <option>Department of Mechanical Engineering</option>
+                    <option>Department of Civil Engineering</option>
+                    <option>Department of Electronics &amp; Communication Engineering</option>
+                    <option>Department of Basic Science &amp; Humanities</option>
+                </select>
+            </label>
+        </div>
     </div>
 
+    <div id="faculty2Form" class="faculty-form-card additional-faculty" hidden>
+        <div class="faculty-form-heading">
+            <strong>Faculty 2</strong>
+            <button type="button" class="remove-faculty-btn" data-remove-faculty="2">Remove</button>
+        </div>
+        <div class="grid two">
+            <label>Faculty Name
+                <input type="text" id="faculty2Name" placeholder="Enter second faculty name">
+            </label>
+            <label>Designation
+                <select id="faculty2Designation">
+                    <option>Assistant Professor</option><option>Lecturer</option>
+                    <option>Associate Professor</option><option>Professor</option>
+                </select>
+            </label>
+            <label>Faculty Department
+                <select id="faculty2Dept">
+                    <option>Department of Computer Science &amp; Engineering</option>
+                    <option>Department of Artificial Intelligence &amp; Data Science</option>
+                    <option>Department of Electrical Engineering</option>
+                    <option>Department of Mechanical Engineering</option>
+                    <option>Department of Civil Engineering</option>
+                    <option>Department of Electronics &amp; Communication Engineering</option>
+                    <option>Department of Basic Science &amp; Humanities</option>
+                </select>
+            </label>
+        </div>
+    </div>
+
+    <div id="faculty3Form" class="faculty-form-card additional-faculty" hidden>
+        <div class="faculty-form-heading">
+            <strong>Faculty 3</strong>
+            <button type="button" class="remove-faculty-btn" data-remove-faculty="3">Remove</button>
+        </div>
+        <div class="grid two">
+            <label>Faculty Name
+                <input type="text" id="faculty3Name" placeholder="Enter third faculty name">
+            </label>
+            <label>Designation
+                <select id="faculty3Designation">
+                    <option>Assistant Professor</option><option>Lecturer</option>
+                    <option>Associate Professor</option><option>Professor</option>
+                </select>
+            </label>
+            <label>Faculty Department
+                <select id="faculty3Dept">
+                    <option>Department of Computer Science &amp; Engineering</option>
+                    <option>Department of Artificial Intelligence &amp; Data Science</option>
+                    <option>Department of Electrical Engineering</option>
+                    <option>Department of Mechanical Engineering</option>
+                    <option>Department of Civil Engineering</option>
+                    <option>Department of Electronics &amp; Communication Engineering</option>
+                    <option>Department of Basic Science &amp; Humanities</option>
+                </select>
+            </label>
+        </div>
+    </div>
+
+    <div class="faculty-actions">
+        <button type="button" id="addFacultyBtn" class="add-faculty-btn">＋ Add another faculty</button>
+        <span id="facultyLimitNote" class="faculty-limit-note">1 of 3 faculty added</span>
+    </div>
 
     <!-- =================================================
          ASSIGNMENT DETAILS
@@ -860,20 +810,18 @@
                         </div>
 
 
-                        <div
-                            id="pFaculty2Block"
-                            class="faculty-entry"
-                            hidden>
+                        <div id="pFaculty2Block" class="faculty-entry additional-preview" hidden>
+                            <strong id="pFaculty2Name"></strong>
+                            <span id="pFaculty2Designation"></span>
+                            <span id="pFaculty2Dept"></span>
+                            <span class="college-line">Techno College of Engineering Agartala</span>
+                        </div>
 
-                            <strong id="pFaculty2Name">
-                            </strong>
-
-                            <span id="pFaculty2Designation">
-                            </span>
-
-                            <span id="pFaculty2Dept">
-                            </span>
-
+                        <div id="pFaculty3Block" class="faculty-entry additional-preview" hidden>
+                            <strong id="pFaculty3Name"></strong>
+                            <span id="pFaculty3Designation"></span>
+                            <span id="pFaculty3Dept"></span>
+                            <span class="college-line">Techno College of Engineering Agartala</span>
                         </div>
 
                     </div>
@@ -1109,7 +1057,7 @@
 
 <!-- YOUR JAVASCRIPT -->
 
-<script src="app.js"></script>
+<script src="js/app.js"></script>
 
 </body>
 </html>

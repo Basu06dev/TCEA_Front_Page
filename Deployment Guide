@@ -1,0 +1,153 @@
+# Deployment Guide
+## TCEA Student Cover Page Maker
+
+This guide explains how to run, upload, update, and deploy the TCEA Student Cover Page Maker using GitHub and Vercel.
+
+## 1. Run the Project Locally
+
+The project does not require a backend server or additional installation.
+
+1. Extract the project ZIP file.
+2. Open the extracted project folder.
+3. Locate `index.html`.
+4. Double-click `index.html`.
+5. The application will open in your default browser.
+
+Recommended browsers:
+- Google Chrome
+- Microsoft Edge
+- Mozilla Firefox
+
+## 2. Create a GitHub Repository
+
+1. Visit https://github.com.
+2. Sign in to your GitHub account.
+3. Click the **New repository** option.
+4. Enter the repository name:
+
+   `tcea-student-cover-page-maker`
+
+5. Add a short description:
+
+   `A free student utility for creating printable academic cover pages.`
+
+6. Choose Public or Private.
+7. Click **Create repository**.
+
+## 3. Upload Project Files to GitHub
+
+Upload the complete project folder structure.
+
+Make sure the repository contains:
+
+```text
+tcea-student-cover-page-maker/
+├── index.html
+├── css/
+│   └── style.css
+├── js/
+│   └── app.js
+├── assets/
+│   └── tcea-logo.jpg
+├── README.md
+└── DEPLOYMENT_GUIDE.md
+```
+
+You can upload files directly through GitHub:
+
+1. Open your repository.
+2. Click **Add file**.
+3. Select **Upload files**.
+4. Upload the project files and folders.
+5. Enter a commit message.
+6. Click **Commit changes**.
+
+## 4. Update an Existing GitHub Repository
+
+If the repository already exists:
+
+1. Open your existing GitHub repository.
+2. Select the file you want to update.
+3. Open the file and click the edit option, or upload its replacement.
+4. Add the updated files.
+5. Commit the changes.
+
+For a complete project update, make sure the latest versions of HTML, CSS, JavaScript, assets, and documentation are uploaded.
+
+## 5. Deploy Using Vercel
+
+1. Visit https://vercel.com.
+2. Sign in using your GitHub account.
+3. Click **Add New → Project**.
+4. Find your GitHub repository.
+5. Click **Import**.
+6. Configure the project.
+
+Recommended settings for this static HTML project:
+
+- Framework Preset: Other
+- Root Directory: `./`
+- Build Command: Leave empty
+- Output Directory: Leave empty
+- Install Command: Leave empty
+
+7. Click **Deploy**.
+
+Vercel will build and publish your website.
+
+## 6. Update the Live Website
+
+If your GitHub repository is already connected to Vercel:
+
+1. Make changes to your local project files.
+2. Upload or push the updated files to GitHub.
+3. Commit the changes to your connected deployment branch.
+4. Vercel automatically starts a new deployment.
+5. Wait until deployment is successful.
+6. Open your live website and verify the changes.
+
+## 7. Verify the Deployment
+
+After deployment, check:
+
+- All four cover-page templates.
+- Student information fields.
+- Faculty 1 displayed by default.
+- Faculty 2 and Faculty 3 appearing only when requested.
+- Faculty removal functionality.
+- Live document preview.
+- Local draft saving.
+- Previously saved draft migration.
+- A4 print layout.
+- PDF download.
+- TCEA logo loading.
+
+## 8. Troubleshooting
+
+**Website not updating?**
+- Check whether the latest changes were committed to GitHub.
+- Check the latest deployment status in Vercel.
+- Refresh the website.
+
+**Logo not appearing?**
+- Check that `tcea-logo.jpg` exists inside the `assets` folder.
+- Verify the image path in the code.
+
+**CSS or JavaScript not loading?**
+- Verify the file paths.
+- Check that folder names and filenames match exactly.
+- Check browser developer tools for errors.
+
+**Saved drafts missing?**
+- Check that browser local storage has not been cleared.
+- Open the website using the same browser and origin previously used.
+
+---
+
+## Project Links
+
+- GitHub: Add your repository URL here.
+- Live Website: https://tcea-front-page.vercel.app
+- Deployment Platform: https://vercel.com
+
+**Note:** Keep this guide updated whenever the deployment process or project structure changes.
